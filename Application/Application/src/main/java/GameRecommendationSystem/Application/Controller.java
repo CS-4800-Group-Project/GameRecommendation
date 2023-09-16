@@ -8,4 +8,10 @@ public class Controller {
 	public String HelloWorld(){
 	return "Hi everyone, this is Group-Name (Best group name ever). ";
 	}
+
+	@GetMapping("/purpose")
+	public String HelloWorld(){
+		String purpose = "The purpose of this project is to create a game recommendation system.";
+	return purpose;
+	}
 }
