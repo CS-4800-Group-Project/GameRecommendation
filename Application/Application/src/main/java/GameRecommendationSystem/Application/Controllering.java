@@ -1,6 +1,7 @@
 package GameRecommendationSystem.Application;
 import java.io.IOException;
 
+import org.jsoup.Jsoup;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,7 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 @Controller
 public class Controllering {
 	private String jsonString = "{\"name\": \"Jose\", \"age\": 20}";
@@ -52,6 +54,16 @@ public class Controllering {
 		model.addAttribute("age", age);
         return "name";
     }
-
+	@GetMapping("/Jsoup")
+    public String Jsoup() {
+		Document doc;
+        try {
+            doc = Jsoup.connect("http://localhost:8081").userAgent("JSoupExample") .get();
+			String text = doc.text();
+            System.out.println("Text : " + text);
+    	} catch (IOException e) {
+            e.printStackTrace();
+		}
+		return "JSoupExample";
+	}
 }
-
