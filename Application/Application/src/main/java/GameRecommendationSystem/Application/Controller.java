@@ -6,13 +6,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class Controller {
 	@GetMapping("/hi")
 	public String helloWorld(){
-	return "Hi everyone, this is Group-Name (Best group name ever). ";
+		return "Hi everyone, this is Group-Name (Best group name ever). ";
 	}
 
-	@GetMapping("/purpose")
+	@GetMapping("/homepage")
 	public String purpose(){
-		String purpose = "The purpose of this project is to create a game recommendation system.";
-	return purpose;
+		return "homepage.html";
 	}
 
 	@GetMapping("/")
