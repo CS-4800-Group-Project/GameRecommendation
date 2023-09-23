@@ -28,6 +28,12 @@ public class Controllering {
     public String welcome() {
         return "homepage";
     }
+
+	@GetMapping("/results")
+	public String results(String userInput, Model model){
+		model.addAttribute("userInput", userInput);
+		return "results";
+	}
 	
 	@GetMapping("/JSON")
     public String json(Model model) {
