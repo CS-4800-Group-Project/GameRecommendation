@@ -59,10 +59,12 @@
     </div>
 
     <div id="alignment">
-      <p><span class="custom-text ">VIDEO GAME<br>RECOMMENDATION<br>SYSTEM</span></p>
-      <input type="text" id="userInput" placeholder="ENTER GAME">
-      <br>
-      <button>SUBMIT</button>
+      <form th:action="@{/results}" method - "post">
+        <p><span class="custom-text ">VIDEO GAME<br>RECOMMENDATION<br>SYSTEM</span></p>
+        <input type="text" id="userInput" name = "userInput" placeholder="ENTER GAME" required>
+        <br>
+        <button type = "submit">SUBMIT</button>
+      </form>
     </div>
 </body>
 
