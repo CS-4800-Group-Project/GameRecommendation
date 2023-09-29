@@ -10,20 +10,27 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-@ContextConfiguration
+
 @SpringBootTest(classes = {Application.class}, webEnvironment = WebEnvironment.RANDOM_PORT)
-@TestPropertySource(locations = "classpath:application.properties")
 class ApplicationTests {
-	@LocalServerPort
-	private int port;
+    @LocalServerPort
+    private int port = 8080;
 
-	@Autowired
-	private TestRestTemplate restTest;
+    @Autowired
+    private TestRestTemplate restTemplate;
 
-	@Test
-	void onWebLoad() {
-		String response = restTest.getForObject("http://localhost:" + port + "/", String.class);
-		assertThat(response).contains("VIDEO GAME");
-	}
+    @Autowired
+    private Controllering controller;
+
+    @Test
+    void onWebLoad() {
+        String response = restTemplate.getForObject("http://localhost:" + port + "/", String.class);
+        assertThat(response).contains("VIDEO GAME");
+    }
+
+    @Test
+    void contextLoads() {
+        assertThat(controller).isNotNull();
+    }
 
 }
