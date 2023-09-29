@@ -11,7 +11,7 @@
     }
 
     button {
-      background-color: #4CB2AB;
+      background-color: #5ed7ceff;
       color: #13151cff;
       font-size: 25px;
       padding: 10px 20px;
@@ -20,9 +20,10 @@
       margin-top: 20px;
     }
 
-    .banner {
-      background-color: #171921ff; /* Background color for the banner */
-      color: white; /* Text color for the banner */
+    /* Add a black background color to the top navigation */
+    .topnav {
+      background-color: #171921ff;
+      overflow: hidden;
       padding: 20px; /* Add some padding for spacing */
       text-align: center; /* Center text within the banner */
       width: 100%
@@ -32,7 +33,7 @@
       font-family: 'Oswald', sans-serif;
       font-weight: bold;
       font-size: 95px;
-      color: #4CB2AB; 
+      color: #5ed7ceff; 
       line-height: 1.25;
     }
 
@@ -52,7 +53,7 @@
 
 </head>
 <body>
-    <div class="banner">
+    <div class="topnav">
       <span style = "color: #4CB2AB;">
         <i class="fa-solid fa-gamepad fa-2x"></i>
       </span>
@@ -61,7 +62,7 @@
     <div id="alignment">
       <form th:action="@{/results}" method - "post">
         <p><span class="custom-text ">VIDEO GAME<br>RECOMMENDATION<br>SYSTEM</span></p>
-        <input type="text" id="userInput" name = "userInput" placeholder="ENTER GAME" required>
+        <input type="text" id="userInput" name = "userInput" placeholder="ENTER GAME TITLE" required>
         <br>
         <button type = "submit">SUBMIT</button>
       </form>

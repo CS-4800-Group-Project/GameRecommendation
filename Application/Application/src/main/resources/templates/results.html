@@ -20,11 +20,12 @@
       margin-top: 20px;
     }
 
-    .banner {
+    .topnav {
       background-color: #171921ff; /* Background color for the banner */
       color: white; /* Text color for the banner */
       padding: 20px; /* Add some padding for spacing */
       text-align: center; /* Center text within the banner */
+      overflow: hidden;
       width: 100%
     }
 
@@ -52,18 +53,18 @@
 
 </head>
 <body>
-    <div class="banner">
-      <span style = "color: #4CB2AB;">
-        <i class="fa-solid fa-gamepad fa-2x"></i>
-      </span>
-    </div>
+  <div class="topnav">
+    <span style = "color: #4CB2AB;">
+      <i class="fa-solid fa-gamepad fa-2x"></i>
+    </span>
+  </div>
 
-    <div id="alignment">
-      <p>
-        <span class="custom-text">Results for: </span>
-        <span class="custom-text "th:text="${userInput}"></span>
+  <div id="alignment">
+    <p>
+      <span class="custom-text">Results for: </span>
+      <span class="custom-text "th:text="${userInput}"></span>
     </p>
-    </div>
+  </div>
 </body>
 
 </html>
