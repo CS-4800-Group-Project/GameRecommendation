@@ -9,7 +9,6 @@ public class Cover {
     private String thumbnailImage;
     private int width;
 
-    // Constructors, getters, and setters
 
     public String getComments() {
         return comments;

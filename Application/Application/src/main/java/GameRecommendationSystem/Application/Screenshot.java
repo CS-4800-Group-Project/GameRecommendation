@@ -7,7 +7,6 @@ public class Screenshot {
     private String thumbnailImage;
     private int width;
 
-    // Constructors, getters, and setters
 
     public String getCaption() {
         return caption;

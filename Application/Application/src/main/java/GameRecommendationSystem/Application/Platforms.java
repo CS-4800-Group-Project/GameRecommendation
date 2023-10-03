@@ -4,8 +4,6 @@ public class Platforms{
     private int platformId;
     private String platformName;
 
-    // Constructors, getters, and setters
-
     public int getPlatformId() {
         return platformId;
     }

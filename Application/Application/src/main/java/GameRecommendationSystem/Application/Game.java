@@ -16,7 +16,6 @@ public class Game {
     private List<Screenshot> sampleScreenshots;
     private String title;
 
-    // Constructors, getters, and setters
 
     public List<String> getAlternateTitles() {
         return alternateTitles;
