@@ -26,6 +26,7 @@ public class Controllering {
 		return "Hi I am the controller weeeeeee";
 	}
 	
+	// http://localhost:8081/
     @GetMapping("/")
     public String welcome() {
         return "homepage";
