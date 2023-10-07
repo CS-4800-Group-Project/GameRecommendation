@@ -17,17 +17,7 @@ public class Controllering {
 	private String jsonString = "{\"name\": \"Jose\", \"age\": 20}";
 	ObjectMapper objectMapper = new ObjectMapper();
 
-	@GetMapping("/hi")
-	public String helloWorld(){
-		return "Hi everyone, this is Group-Name (Best group name ever). ";
-	}
-
-	@GetMapping("/Self")
-	public String aboutMe(){
-		return "Hi I am the controller weeeeeee";
-	}
-	
-	// http://localhost:8081/
+	// http://localhost:8080/
     @GetMapping("/")
     public String welcome() {
         return "homepage";
@@ -60,7 +50,7 @@ public class Controllering {
     public String Jsoup() {
 		Document doc;
         try {
-            doc = Jsoup.connect("http://localhost:8081").userAgent("JSoupExample") .get();
+            doc = Jsoup.connect("http://localhost:8080").userAgent("JSoupExample") .get();
 			String text = doc.text();
             System.out.println("Text : " + text);
     	} catch (IOException e) {

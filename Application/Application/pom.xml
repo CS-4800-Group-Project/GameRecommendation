@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>GameRecommendationSystem</groupId>
 	<artifactId>Application</artifactId>
-	<version>0.1.0</version>
+	<version>0.1.11</version>
 	<name>GameRecommend</name>
 	<description>Project for CS 4800</description>
 	<properties>
