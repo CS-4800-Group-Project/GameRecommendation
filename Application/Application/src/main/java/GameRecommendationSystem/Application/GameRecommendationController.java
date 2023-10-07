@@ -21,7 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 
-import java.net.http.HttpHeaders;
+import org.springframework.http.HttpHeaders;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

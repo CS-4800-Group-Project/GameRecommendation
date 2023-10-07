@@ -104,7 +104,13 @@ public class Game {
     public void setDescription(String description) {
         this.description = description;
     }
+    public double getMobyScore() {
+        return mobyScore;
+    }
 
+    public void getMobyScore(double mobyScore) {
+        this.mobyScore = mobyScore;
+    }
 
 
 }
