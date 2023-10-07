@@ -3,26 +3,26 @@ package GameRecommendationSystem.Application;
 import java.util.List;
 
 public class Game {
-    private List<String> alternateTitles;
+    private List<AlternateTitle> alternate_titles;
     private String description;
-    private int gameId;
+    private int game_id;
     private List<Genre> genres;
-    private double mobyScore;
-    private String mobyUrl;
-    private int numVotes;
-    private String officialUrl;
+    private double moby_score;
+    private String moby_url;
+    private int num_votes;
+    private String official_url;
     private List<Platforms> platforms;
-    private Cover sampleCover;
-    private List<Screenshot> sampleScreenshots;
+    private Cover sample_cover;
+    private List<Screenshot> sample_screenshots;
     private String title;
 
 
-    public List<String> getAlternateTitles() {
-        return alternateTitles;
+    public List<AlternateTitle> getAlternateTitles() {
+        return alternate_titles;
     }
 
-    public void setAlternateTitles(List<String> alternateTitles) {
-        this.alternateTitles = alternateTitles;
+    public void setAlternateTitles(List<AlternateTitle> alternate_titles) {
+        this.alternate_titles = alternate_titles;
     }
 
     public String getDescription() {
@@ -34,11 +34,11 @@ public class Game {
     }
 
     public int getGameId() {
-        return gameId;
+        return game_id;
     }
 
-    public void setGameId(int gameId) {
-        this.gameId = gameId;
+    public void setGameId(int game_id) {
+        this.game_id = game_id;
     }
 
     public List<Genre> getGenres() {
@@ -50,35 +50,35 @@ public class Game {
     }
 
     public double getMobyScore() {
-        return mobyScore;
+        return moby_score;
     }
 
-    public void setMobyScore(double mobyScore) {
-        this.mobyScore = mobyScore;
+    public void setMobyScore(double moby_score) {
+        this.moby_score = moby_score;
     }
 
     public String getMobyUrl() {
-        return mobyUrl;
+        return moby_url;
     }
 
-    public void setMobyUrl(String mobyUrl) {
-        this.mobyUrl = mobyUrl;
+    public void setMobyUrl(String moby_url) {
+        this.moby_url = moby_url;
     }
 
     public int getNumVotes() {
-        return numVotes;
+        return num_votes;
     }
 
-    public void setNumVotes(int numVotes) {
-        this.numVotes = numVotes;
+    public void setNumVotes(int num_votes) {
+        this.num_votes = num_votes;
     }
 
     public String getOfficialUrl() {
-        return officialUrl;
+        return official_url;
     }
 
-    public void setOfficialUrl(String officialUrl) {
-        this.officialUrl = officialUrl;
+    public void setOfficialUrl(String official_url) {
+        this.official_url = official_url;
     }
 
     public List<Platforms> getPlatforms() {
@@ -90,19 +90,19 @@ public class Game {
     }
 
     public Cover getSampleCover() {
-        return sampleCover;
+        return sample_cover;
     }
 
-    public void setSampleCover(Cover sampleCover) {
-        this.sampleCover = sampleCover;
+    public void setSampleCover(Cover sample_cover) {
+        this.sample_cover = sample_cover;
     }
 
     public List<Screenshot> getSampleScreenshots() {
-        return sampleScreenshots;
+        return sample_screenshots;
     }
 
-    public void setSampleScreenshots(List<Screenshot> sampleScreenshots) {
-        this.sampleScreenshots = sampleScreenshots;
+    public void setSampleScreenshots(List<Screenshot> sample_screenshots) {
+        this.sample_screenshots = sample_screenshots;
     }
 
     public String getTitle() {

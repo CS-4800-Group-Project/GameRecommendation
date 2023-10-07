@@ -4,7 +4,7 @@ public class Screenshot {
     private String caption;
     private int height;
     private String image;
-    private String thumbnailImage;
+    private String thumbnail_image;
     private int width;
 
 
@@ -33,11 +33,11 @@ public class Screenshot {
     }
 
     public String getThumbnailImage() {
-        return thumbnailImage;
+        return thumbnail_image;
     }
 
-    public void setThumbnailImage(String thumbnailImage) {
-        this.thumbnailImage = thumbnailImage;
+    public void setThumbnailImage(String thumbnail_image) {
+        this.thumbnail_image = thumbnail_image;
     }
 
     public int getWidth() {
