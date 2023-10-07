@@ -3,33 +3,17 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "games") // Make sure this matches your database table name
+@Table(name = "games") 
 public class Game {
-<<<<<<< HEAD
-    @Id
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long gameId;
 
-=======
-    private List<AlternateTitle> alternate_titles;
-    private String description;
-    private int game_id;
-    private List<Genre> genres;
-    private double moby_score;
-    private String moby_url;
-    private int num_votes;
-    private String official_url;
-    private List<Platforms> platforms;
-    private Cover sample_cover;
-    private List<Screenshot> sample_screenshots;
->>>>>>> 9d6bf6eda15531e1790f43e04638faf137d771f3
     private String title;
     @Column(columnDefinition = "TEXT") 
     private String description;
 
-    
-
-<<<<<<< HEAD
     private double mobyScore;
 
     public Game() {}
@@ -64,7 +48,7 @@ public class Game {
     public void setGenres(List<Genre> genres) {
         this.genres = genres;
     }
-    public List<Platforms>  getPlatforms() {
+    public List<Platforms> getPlatforms() {
         return platforms;
     }
 
@@ -88,7 +72,7 @@ public class Game {
         this.sampleCover = sampleCover;
     }
 
-    // Getter and Setter for sampleScreenshots
+
     public List<Screenshot> getSampleScreenshots() {
         return sampleScreenshots;
     }
@@ -101,7 +85,7 @@ public class Game {
         return gameId;
     }
 
-    public void setGameId(Long gameId) {
+    public void setGameId(Long gameId){
         this.gameId = gameId;
     }
 
@@ -109,18 +93,10 @@ public class Game {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(String title){
         this.title = title;
-=======
-    public List<AlternateTitle> getAlternateTitles() {
-        return alternate_titles;
     }
-
-    public void setAlternateTitles(List<AlternateTitle> alternate_titles) {
-        this.alternate_titles = alternate_titles;
->>>>>>> 9d6bf6eda15531e1790f43e04638faf137d771f3
-    }
-
+  
     public String getDescription() {
         return description;
     }
@@ -129,92 +105,8 @@ public class Game {
         this.description = description;
     }
 
-<<<<<<< HEAD
-=======
-    public int getGameId() {
-        return game_id;
-    }
 
-    public void setGameId(int game_id) {
-        this.game_id = game_id;
-    }
 
-    public List<Genre> getGenres() {
-        return genres;
-    }
-
-    public void setGenres(List<Genre> genres) {
-        this.genres = genres;
-    }
-
->>>>>>> 9d6bf6eda15531e1790f43e04638faf137d771f3
-    public double getMobyScore() {
-        return moby_score;
-    }
-
-    public void setMobyScore(double moby_score) {
-        this.moby_score = moby_score;
-    }
-
-<<<<<<< HEAD
-    
-=======
-    public String getMobyUrl() {
-        return moby_url;
-    }
-
-    public void setMobyUrl(String moby_url) {
-        this.moby_url = moby_url;
-    }
-
-    public int getNumVotes() {
-        return num_votes;
-    }
-
-    public void setNumVotes(int num_votes) {
-        this.num_votes = num_votes;
-    }
-
-    public String getOfficialUrl() {
-        return official_url;
-    }
-
-    public void setOfficialUrl(String official_url) {
-        this.official_url = official_url;
-    }
-
-    public List<Platforms> getPlatforms() {
-        return platforms;
-    }
-
-    public void setPlatforms(List<Platforms> platforms) {
-        this.platforms = platforms;
-    }
-
-    public Cover getSampleCover() {
-        return sample_cover;
-    }
-
-    public void setSampleCover(Cover sample_cover) {
-        this.sample_cover = sample_cover;
-    }
-
-    public List<Screenshot> getSampleScreenshots() {
-        return sample_screenshots;
-    }
-
-    public void setSampleScreenshots(List<Screenshot> sample_screenshots) {
-        this.sample_screenshots = sample_screenshots;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
->>>>>>> 9d6bf6eda15531e1790f43e04638faf137d771f3
 }
 
     
