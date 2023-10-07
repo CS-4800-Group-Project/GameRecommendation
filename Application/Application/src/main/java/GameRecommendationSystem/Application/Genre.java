@@ -6,24 +6,24 @@ import javax.persistence.*;
 public class Genre {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long genreId;
+    private Long genre_id;
 
-    private String genreName;
+    private String genre_name;
 
     public Long getGenreId() {
-        return genreId;
+        return genre_id;
     }
 
-    public void setGenreId(Long genreId) {
-        this.genreId = genreId;
+    public void setGenreId(Long genre_id) {
+        this.genre_id = genre_id;
     }
 
     public String getGenreName() {
-        return genreName;
+        return genre_name;
     }
 
-    public void setGenreName(String genreName) {
-        this.genreName = genreName;
+    public void setGenreName(String genre_name) {
+        this.genre_name = genre_name;
     }
 
    

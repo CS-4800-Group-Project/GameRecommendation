@@ -6,7 +6,7 @@ import javax.persistence.*;
 public class Screenshot {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long screenshotId;
+    private Long screenshot_id;
 
     private String image;
     private String thumbnail_image;
@@ -17,11 +17,11 @@ public class Screenshot {
     // Define getters and setters
 
     public Long getScreenshotId() {
-        return screenshotId;
+        return screenshot_id;
     }
 
     public void setScreenshotId(Long screenshotId) {
-        this.screenshotId = screenshotId;
+        this.screenshot_id = screenshot_id;
     }
 
     public String getImage() {

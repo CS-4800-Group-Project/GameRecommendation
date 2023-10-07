@@ -8,21 +8,26 @@ public class Game {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long gameId;
+    private Long game_id;
 
     private String title;
     @Column(columnDefinition = "TEXT") 
     private String description;
 
-    private double mobyScore;
+    private double moby_score;
 
     public Game() {}
-    public Game(Long gameId, String title, String description, double mobyScore ) {
-    	this.gameId = gameId; 
+    public Game(Long game_id, String title, String description, double moby_score) {
+    	this.game_id = game_id; 
     	this.title = title;
     	this.description = description; 
-    	this.mobyScore = mobyScore;
+    	this.moby_score = moby_score;
     	
+    }
+
+    public double getMobyScore()
+    {
+        return this.moby_score;
     }
     
     @ManyToMany
@@ -58,35 +63,35 @@ public class Game {
     
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cover_id")
-    private Cover sampleCover;
+    private Cover sample_cover;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "game_id")
-    private List<Screenshot> sampleScreenshots;
+    private List<Screenshot> sample_screenshots;
     
     public Cover getSampleCover() {
-        return sampleCover;
+        return sample_cover;
     }
 
-    public void setSampleCover(Cover sampleCover) {
-        this.sampleCover = sampleCover;
+    public void setSampleCover(Cover sample_cover) {
+        this.sample_cover = sample_cover;
     }
 
 
     public List<Screenshot> getSampleScreenshots() {
-        return sampleScreenshots;
+        return sample_screenshots;
     }
 
-    public void setSampleScreenshots(List<Screenshot> sampleScreenshots) {
-        this.sampleScreenshots = sampleScreenshots;
+    public void setSampleScreenshots(List<Screenshot> sample_screenshots) {
+        this.sample_screenshots = sample_screenshots;
     }
     
     public Long getGameId() {
-        return gameId;
+        return game_id;
     }
 
-    public void setGameId(Long gameId){
-        this.gameId = gameId;
+    public void setGameId(Long game_id){
+        this.game_id = game_id;
     }
 
     public String getTitle() {
@@ -104,13 +109,7 @@ public class Game {
     public void setDescription(String description) {
         this.description = description;
     }
-    public double getMobyScore() {
-        return mobyScore;
-    }
 
-    public void getMobyScore(double mobyScore) {
-        this.mobyScore = mobyScore;
-    }
 
 
 }

@@ -6,24 +6,24 @@ import javax.persistence.*;
 public class Platforms {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long platformId;
+    private Long platform_id;
 
-    private String platformName;
+    private String platform_name;
 
     public Long getPlatformId() {
-        return platformId;
+        return platform_id;
     }
 
-    public void setPlatformId(Long platformId) {
-        this.platformId = platformId;
+    public void setPlatformId(Long platform_id) {
+        this.platform_id = platform_id;
     }
 
     public String getPlatformName() {
-        return platformName;
+        return platform_name;
     }
 
-    public void setPlatformName(String platformName) {
-        this.platformName = platformName;
+    public void setPlatformName(String platform_name) {
+        this.platform_name = platform_name;
     }
 }
 

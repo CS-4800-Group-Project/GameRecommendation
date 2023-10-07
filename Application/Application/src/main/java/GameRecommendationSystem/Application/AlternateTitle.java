@@ -6,7 +6,6 @@ public class AlternateTitle {
     private String title;
 
     // Getters and setters for the description and title properties
-
     public String getDescription() {
         return description;
     }
