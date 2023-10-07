@@ -103,20 +103,23 @@ public class GameRecommendationController {
             // double checked format and it is in snake_case.
             objectMapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
 
-            // does not go in here returns null i cant figure out why
-            if (jsonNode.isArray()) {
-                System.out.println("INSIDE");//never prints
-                for (JsonNode gameNode : jsonNode) {
-                    Game game = objectMapper.convertValue(gameNode, Game.class);
-                    games.add(game);
-                    System.out.println(game.getTitle());
+            if (jsonNode.isObject() && jsonNode.has("games")) {
+                JsonNode gamesNode = jsonNode.get("games"); // Get the "games" field
+            
+                // inside games there should be an array of results
+                if (gamesNode.isArray()) {
+                    System.out.println("INSIDE");//never prints
+                    for (JsonNode gameNode : gamesNode) {
+                        Game game = objectMapper.convertValue(gameNode, Game.class);
+                        games.add(game);
+                        System.out.println(game.getTitle() + " " + game.getMobyScore());
+                    }
+                }
+                else
+                {
+                    System.out.println("ERROR SOMEWHERE");
                 }
             }
-            else
-            {
-                System.out.println("NULL");
-            }
-            
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -132,6 +135,7 @@ public class GameRecommendationController {
     public String getGames(Model model) {
         // check to see if any games are in list
         System.out.println("Number of games retrieved: " + gamesList.size());
+        
 
         model.addAttribute("games", gamesList); // Add the list of games to the model
 
