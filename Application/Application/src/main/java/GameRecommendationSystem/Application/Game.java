@@ -27,7 +27,11 @@ public class Game {
 
     public double getMobyScore()
     {
-        return this.moby_score;
+        return moby_score;
+    }
+    public void setMobyScore(double moby_score)
+    {
+        this.moby_score = moby_score;
     }
     
     @ManyToMany

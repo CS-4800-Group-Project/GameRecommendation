@@ -6,7 +6,7 @@ import javax.persistence.*;
 public class Cover {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long coverId;
+    private Long cover_id;
 
     private String image;
     private String thumbnailImage;
@@ -16,11 +16,11 @@ public class Cover {
     // Define getters and setters
 
     public Long getCoverId() {
-        return coverId;
+        return cover_id;
     }
 
-    public void setCoverId(Long coverId) {
-        this.coverId = coverId;
+    public void setCoverId(Long cover_id) {
+        this.cover_id = cover_id;
     }
 
     public String getImage() {

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -33,50 +34,15 @@ public class GameRecommendationController {
     private final String mobyGamesBaseUrl = "https://api.mobygames.com/v1/"; 
     public final static String apiKey = "moby_kZCBUgn5Hbs4CYbFhKpYTnvALrr"; 
     private ObjectMapper objectMapper;
-    private GameRepository gameRepository;
     List<Game> gamesList = new ArrayList<>();
     
 
     @Autowired
-    public GameRecommendationController(RestTemplate restTemplate,ObjectMapper objectMapper, GameRepository gameRepository) {
+    public GameRecommendationController(RestTemplate restTemplate,ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
-        this.gameRepository = gameRepository;
         this.objectMapper = objectMapper;
     }
-/*
-    @GetMapping("/fetch-and-store-games")
-    public ResponseEntity<String> fetchAndStoreGames() {
-        String apiUrl = "https://api.mobygames.com/v1/games?api_key=" + apiKey;
 
-        try {
-            HttpHeaders headers = new HttpHeaders();
-            headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-            HttpEntity<?> entity = new HttpEntity<>(headers);
-
-            ResponseEntity<JsonNode> gamesResponse = restTemplate.exchange(
-                apiUrl,
-                HttpMethod.GET,
-                entity,
-                JsonNode.class
-            );
-
-            // Process the response and store data in the local database
-            JsonNode gamesData = gamesResponse.getBody();
-            for (JsonNode gameJson : gamesData.get("games")) {
-                Game gameEntity = new Game();
-                gameEntity.setTitle(gameJson.get("title").asText());
-                gameEntity.setDescription(gameJson.get("description").asText());
-
-                // Save the entity to the database
-                gameRepository.save(gameEntity);
-            }
-
-            return ResponseEntity.ok("Games fetched and stored successfully.");
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body("Error fetching and storing games: " + e.getMessage());
-        }
-    }
-    */
     @GetMapping("/game")
     public ResponseEntity<JsonNode> getGames() {
         String apiUrl = "https://api.mobygames.com/v1/games?api_key=" + apiKey;
@@ -153,6 +119,25 @@ public class GameRecommendationController {
         model.addAttribute("games", gamesList); // Add the list of games to the model
 
         return "games"; // Return the name of the HTML template
+    }
+    
+    @GetMapping("/search")
+    public String searchGame(@RequestParam(name = "title") String title, Model model) {
+        // Create a list to store matching games
+        List<Game> matchingGames = new ArrayList<>();
+
+        // Search for games with matching titles
+        for (Game game : gamesList) {
+            if (game.getTitle().equalsIgnoreCase(title)) {
+                matchingGames.add(game);
+            }
+        }
+
+        // Add the matching games to the model
+        model.addAttribute("games", matchingGames);
+
+        // Return the results template
+        return "results";
     }
 }
     
