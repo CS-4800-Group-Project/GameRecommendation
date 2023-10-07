@@ -1,27 +1,27 @@
 package GameRecommendationSystem.Application;
+import javax.persistence.*;
 
+@Entity
+@Table(name = "screenshots")
 public class Screenshot {
-    private String caption;
-    private int height;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long screenshotId;
+
     private String image;
     private String thumbnail_image;
     private int width;
+    private int height;
+    private String caption;
 
+    // Define getters and setters
 
-    public String getCaption() {
-        return caption;
+    public Long getScreenshotId() {
+        return screenshotId;
     }
 
-    public void setCaption(String caption) {
-        this.caption = caption;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
+    public void setScreenshotId(Long screenshotId) {
+        this.screenshotId = screenshotId;
     }
 
     public String getImage() {
@@ -47,5 +47,20 @@ public class Screenshot {
     public void setWidth(int width) {
         this.width = width;
     }
-}
 
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public String getCaption() {
+        return caption;
+    }
+
+    public void setCaption(String caption) {
+        this.caption = caption;
+    }
+}

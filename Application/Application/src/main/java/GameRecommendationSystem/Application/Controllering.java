@@ -1,6 +1,7 @@
 package GameRecommendationSystem.Application;
 import java.io.IOException;
 
+
 import org.jsoup.Jsoup;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

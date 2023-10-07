@@ -1,23 +1,30 @@
 package GameRecommendationSystem.Application;
+import javax.persistence.*;
 
-public class Platforms{
-    private int platform_id;
-    private String platform_name;
+@Entity
+@Table(name = "platforms")
+public class Platforms {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long platformId;
 
-    public int getPlatformId() {
-        return platform_id;
+    private String platformName;
+
+    public Long getPlatformId() {
+        return platformId;
     }
 
-    public void setPlatformId(int platform_id) {
-        this.platform_id = platform_id;
+    public void setPlatformId(Long platformId) {
+        this.platformId = platformId;
     }
 
     public String getPlatformName() {
-        return platform_name;
+        return platformName;
     }
 
-    public void setPlatformName(String platform_name) {
-        this.platform_name = platform_name;
+    public void setPlatformName(String platformName) {
+        this.platformName = platformName;
     }
 }
+
 

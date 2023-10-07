@@ -1,37 +1,26 @@
 package GameRecommendationSystem.Application;
+import javax.persistence.*;
 
+@Entity
+@Table(name = "covers")
 public class Cover {
-    private String comments;
-    private String description;
-    private int height;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long coverId;
+
     private String image;
-    private String scanOf;
     private String thumbnailImage;
     private int width;
+    private int height;
 
+    // Define getters and setters
 
-    public String getComments() {
-        return comments;
+    public Long getCoverId() {
+        return coverId;
     }
 
-    public void setComments(String comments) {
-        this.comments = comments;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
+    public void setCoverId(Long coverId) {
+        this.coverId = coverId;
     }
 
     public String getImage() {
@@ -40,14 +29,6 @@ public class Cover {
 
     public void setImage(String image) {
         this.image = image;
-    }
-
-    public String getScanOf() {
-        return scanOf;
-    }
-
-    public void setScanOf(String scanOf) {
-        this.scanOf = scanOf;
     }
 
     public String getThumbnailImage() {
@@ -65,5 +46,12 @@ public class Cover {
     public void setWidth(int width) {
         this.width = width;
     }
-}
 
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+}
