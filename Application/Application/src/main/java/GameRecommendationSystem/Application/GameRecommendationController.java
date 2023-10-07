@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +22,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+
+import javax.annotation.PostConstruct;
+
 
 import org.springframework.http.HttpHeaders;
 import java.util.ArrayList;
@@ -43,6 +47,30 @@ public class GameRecommendationController {
         this.objectMapper = objectMapper;
     }
 
+    @PostConstruct
+    public void loadGameList() {
+        String apiUrl = "https://api.mobygames.com/v1/games?api_key=" + apiKey;
+
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+
+            HttpEntity<?> entity = new HttpEntity<>(headers);
+
+            ResponseEntity<JsonNode> gamesResponse = restTemplate.exchange(
+                    apiUrl,
+                    HttpMethod.GET,
+                    entity,
+                    JsonNode.class
+            );
+
+            // Store the game list in the gamesList variable
+            gamesList = convertJsonToGameList(gamesResponse.getBody());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }    
     @GetMapping("/game")
     public ResponseEntity<JsonNode> getGames() {
         String apiUrl = "https://api.mobygames.com/v1/games?api_key=" + apiKey;
@@ -118,7 +146,7 @@ public class GameRecommendationController {
 
         model.addAttribute("games", gamesList); // Add the list of games to the model
 
-        return "games"; // Return the name of the HTML template
+        return "results"; // Return the name of the HTML template
     }
     
     @GetMapping("/search")
@@ -139,6 +167,7 @@ public class GameRecommendationController {
         // Return the results template
         return "results";
     }
+    
 }
     
 
