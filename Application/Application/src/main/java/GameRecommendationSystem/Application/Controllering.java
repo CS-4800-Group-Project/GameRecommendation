@@ -49,7 +49,7 @@ public class Controllering {
     public String Jsoup() {
 		Document doc;
         try {
-            doc = Jsoup.connect("http://localhost:8081").userAgent("JSoupExample") .get();
+            doc = Jsoup.connect("http://localhost:8080").userAgent("JSoupExample") .get();
 			String text = doc.text();
             System.out.println("Text : " + text);
     	} catch (IOException e) {
