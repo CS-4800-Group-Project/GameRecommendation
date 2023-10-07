@@ -10,8 +10,8 @@
 	</parent>
 	<groupId>GameRecommendationSystem</groupId>
 	<artifactId>Application</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>Application</name>
+	<version>0.1.0</version>
+	<name>GameRecommend</name>
 	<description>Project for CS 4800</description>
 	<properties>
 		<java.version>17</java.version>
