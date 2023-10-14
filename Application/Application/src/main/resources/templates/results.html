@@ -3,21 +3,33 @@
 <head>
   <script src="https://kit.fontawesome.com/d4ee57643b.js" crossorigin="anonymous"></script>
   <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <style>
     /* Set background colors */
     body {
       background-color: #13151cff;
-      font-family: 'Oswald', sans-serif;
+      color: #a6a6a9;
+      font-size: 22px;
       margin: 0;
       padding: 0;
+      text-align: left;
     }
 
     .container {
       max-width: 1200px;
       margin: 0 auto;
       padding: 20px;
-      background-color: #fff;
+      background-color: #13151cff;
+    }
+
+    /* Add a black background color to the top navigation */
+    .topnav {
+      background-color: #171921ff;
+      overflow: hidden;
+      padding: 20px; /* Add some padding for spacing */
+      text-align: center; /* Center text within the banner */
+      width: 100%;
     }
 
     .banner {
@@ -38,7 +50,7 @@
     }
 
     #userInput {
-      width: 200px;
+      width: 300px;
       font-size: 16px;
       padding: 10px;
       border: 2px solid #4CB2AB;
@@ -47,7 +59,7 @@
 
     .search-button {
       background-color: #4CB2AB;
-      color: #fff;
+      color: #13151cff;
       font-size: 16px;
       padding: 10px 15px;
       border: none;
@@ -90,51 +102,58 @@
 
     .game-details {
       flex: 2;
+      text-align: left;
     }
 
     .game-title {
-      font-size: 24px;
-      font-weight: bold;
+      font-size: 50px;
+      color: #4CB2AB;
+      font-family: 'Oswald', sans-serif;
       margin-bottom: 10px;
+      text-align: left;
     }
 
     .game-genre-category {
-      font-size: 18px;
+      font-size: 20px;
+      font-family: 'Roboto', sans-serif;
       color: #4CB2AB;
     }
 
     .game-genre-name {
-      font-size: 18px;
+      font-size: 20px;
+      font-family: 'Roboto', sans-serif;
       color: #4CB2AB;
     }
 
     .moby-score {
       font-size: 20px;
+      font-family: 'Roboto', sans-serif;
       color: #4CB2AB;
     }
 
     .game-description {
       font-size: 18px;
+      font-family: 'Roboto', sans-serif;
       margin-right: 100px; /* Preserve line breaks in the description */
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="banner">
-      <i class="fa-solid fa-gamepad"></i>
-      <h1>Game Recommendation System</h1>
+    <div class="topnav">
+      <span style = "color: #4CB2AB;">
+        <i class="fa-solid fa-gamepad fa-2x"></i>
+      </span>
     </div>
 
     <div class="search-container">
       <form action="/search" method="get">
-        <input type="text" id="title" name="title" placeholder="Enter a game title">
+        <input type="text" id="userInput" name="title" placeholder="Enter a game title" >
         <button class="search-button" type="submit">Search</button>
       </form>
     </div>
 
     <div class="results-container">
-      <h2 class="custom-text">Search Results</h2>
       <ul class="game-list">
         <!-- Loop through and display matching games -->
         <th:block th:each="game : ${games}">
@@ -144,9 +163,15 @@
             </div>
             <div class="game-details">
               <h3 class="game-title" th:text="${game.title}"></h3>
-              <p class="game-genre-name">Genre Name: <span th:text="${game.genres[0].genreName}"></span></p>
-              <p class="moby-score">Moby Score: <span th:text="${game.mobyScore}"></span></p>
-              <p class="game-description" th:utext="${game.description}"></p>
+              <p class="moby-score">
+                <span style="font-weight: bold; font-size: 22px; color: #a6a6a9; font-family: 'Roboto', sans-serif;">Moby Score:  </span>
+                <span th:text="${game.mobyScore}"></span></p>
+              <p class="game-genre-name">
+                <span style="font-weight: bold; font-size: 22px; color: #a6a6a9; font-family: 'Roboto', sans-serif;">Genre Name: </span>
+                  <span th:text="${game.genres[0].genreName}"></span></p>
+              <p class="game-description">
+                <span style="font-weight: bold; font-size: 22px; color: #a6a6a9; font-family: 'Roboto', sans-serif;">Summary:  </span>
+                <span th:utext="${game.description}"></span></p>
             </div>
           </li>
         </th:block>
