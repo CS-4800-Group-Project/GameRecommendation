@@ -44,30 +44,60 @@ public class GameRecommendationController {
         this.objectMapper = objectMapper;
     }
 
+    private final int gamesPerPage = 100; // Number of games to fetch per request
+    private final long requestDelayMillis = 1000; // Delay between requests in milliseconds (1 second)
+    private final int maxGamesToFetch = 30000;
     @PostConstruct
     public void loadGameList() {
-        String apiUrl = "https://api.mobygames.com/v1/games?api_key=" + apiKey;
-
         try {
-            HttpHeaders headers = new HttpHeaders();
-            headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+            int offset = 0; // Offset for pagination
+            int totalGamesFetched = 0; // Keep track of the total games fetched
 
-            HttpEntity<?> entity = new HttpEntity<>(headers);
+            while (totalGamesFetched < maxGamesToFetch) {
+                String apiUrl = "https://api.mobygames.com/v1/games?api_key=" + apiKey + "&offset=" + offset;
 
-            ResponseEntity<JsonNode> gamesResponse = restTemplate.exchange(
-                    apiUrl,
-                    HttpMethod.GET,
-                    entity,
-                    JsonNode.class
-            );
+                HttpHeaders headers = new HttpHeaders();
+                headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 
-            // Store the game list in the gamesList variable
-            gamesList = convertJsonToGameList(gamesResponse.getBody());
+                HttpEntity<?> entity = new HttpEntity<>(headers);
 
+                ResponseEntity<JsonNode> gamesResponse = restTemplate.exchange(
+                        apiUrl,
+                        HttpMethod.GET,
+                        entity,
+                        JsonNode.class
+                );
+
+                if (gamesResponse.getStatusCode().is4xxClientError() || gamesResponse.getStatusCode().is5xxServerError()) {
+                    // Handle rate limiting or other errors
+                    System.out.println("Error: " + gamesResponse.getStatusCode());
+                    break;
+                }
+
+                // Get the games from the response and add them to the gamesList
+                List<Game> games = convertJsonToGameList(gamesResponse.getBody());
+                gamesList.addAll(games);
+
+                // Update the total games fetched
+                totalGamesFetched += games.size();
+
+                // If the response doesn't contain the expected number of games or the limit is reached, break the loop
+                if (games.size() < gamesPerPage || totalGamesFetched >= maxGamesToFetch) {
+                    break;
+                }
+
+                // Increment the offset for the next page
+                offset += gamesPerPage;
+
+                // Introduce a 1-second delay to avoid rate limiting
+                Thread.sleep(requestDelayMillis);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }    
+    }
+
+
     @GetMapping("/game")
     public ResponseEntity<JsonNode> getGames() {
         String apiUrl = "https://api.mobygames.com/v1/games?api_key=" + apiKey;
