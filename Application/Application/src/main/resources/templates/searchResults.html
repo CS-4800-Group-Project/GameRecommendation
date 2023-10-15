@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://kit.fontawesome.com/d4ee57643b.js" crossorigin="anonymous"></script>
+  <link href='https/fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <style>
+    /* Set background colors */
+    body {
+      background-color: #13151cff;
+      font-family: 'Oswald', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+      position: relative;
+    }
+
+    .banner {
+      background-color: #4CB2AB;
+      color: #13151cff;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .banner i {
+      font-size: 48px;
+      color: white;
+    }
+
+    .search-container {
+      text-align: right;
+      margin-top: 20px;
+    }
+
+    #title {
+      width: 200px;
+      font-size: 16px;
+      padding: 10px;
+      border: 2px solid #4CB2AB;
+      border-radius: 5px;
+    }
+
+    .search-button {
+      background-color: #4CB2AB;
+      color: #fff;
+      font-size: 16px;
+      padding: 10px 15px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .results-container {
+      text-align: center;
+    }
+
+    .custom-text {
+      font-weight: bold;
+      font-size: 36px;
+      color: #4CB2AB;
+    }
+
+    .two-column {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .filter-container {
+      width: 34%; /* Adjust the width as needed */
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      padding: 10px;
+    }
+
+    .filter-header {
+      background-color: #333;
+      color: white;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .filter-box {
+      border: 1px solid #ccc;
+      font-weight: bold;
+      padding: 10px;
+    }
+
+    .game-list {
+      width: 65%; /* Adjust the width as needed */
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 0px;
+    }
+
+    .game-item {
+    display: flex; /* Add display: flex */
+    align-items: flex-start;
+    width: 45%;
+    border: 1px solid #ccc;
+  }
+
+  .game-cover img {
+    width: 90px;
+    height: 180px;
+  }
+
+  .game-details {
+    flex: 2;
+    display: flex; /* Add display: flex */
+    flex-direction: column; /* To stack title and description */
+  }
+
+  .game-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+    .game-genre-category {
+      font-size: 18px;
+      color: #4CB2AB;
+    }
+
+    .game-genre-name {
+      font-size: 18px;
+      color: #4CB2AB;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="banner">
+      <i class="fa-solid fa-gamepad"></i>
+      <h1>Game Recommendation System</h1>
+    </div>
+
+    <div class="search-container">
+      <form action="/search" method="get">
+        <input type="text" id="title" name="title" placeholder="Enter a game title">
+        <button class="search-button" type="submit">Search</button>
+      </form>
+    </div>
+
+    <div class="results-container">
+      <h2 class="custom-text">Search Results</h2>
+      <div class="two-column">
+        <div class="filter-container">
+          <div class="filter-header">Filters</div>
+          <div class="filter-box">Year Published</div>
+          <div class="filter-box">User Score</div>
+          <div class="filter-box">Genre</div>
+          <div class="filter-box">Platform</div>
+        </div>
+
+        <ul class="game-list">
+          <!-- Loop through and display matching games -->
+          <th:block th:each="game : ${games}">
+            <li class="game-item">
+              <div class="game-cover">
+                <img th:src="${game.sampleCover.image}" alt="Game Cover">
+              </div>
+              <div class="game-details">
+                <h3 class="game-title" th:text="${game.title}">
+                </h3>
+              </div>
+            </li>
+          </th:block>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
