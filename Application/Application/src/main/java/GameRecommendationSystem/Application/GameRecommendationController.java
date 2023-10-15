@@ -155,6 +155,8 @@ public class GameRecommendationController {
         for (Game game : gamesList) {
             if (game.getTitle().equalsIgnoreCase(title)) {
                 matchingGames.add(game);
+                matchingGames.add(game);
+                matchingGames.add(game);
             }
         }
 
@@ -162,8 +164,6 @@ public class GameRecommendationController {
         model.addAttribute("games", matchingGames);
 
         // Return the results template
-        return "results";
+        return "searchResults";
     }
-
- 
 }
