@@ -2,14 +2,13 @@ package GameRecommendationSystem.Application;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "platforms")
 public class Platforms {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long platform_id;
-
     private String platform_name;
-
+    private String firstReleaseDate;
+    
     public Long getPlatformId() {
         return platform_id;
     }
@@ -24,6 +23,13 @@ public class Platforms {
 
     public void setPlatformName(String platform_name) {
         this.platform_name = platform_name;
+    }
+    public String getFirstReleaseDate() {
+        return firstReleaseDate;
+    }
+
+    public void setFirstReleaseDate(String firstReleaseDate) {
+        this.firstReleaseDate = firstReleaseDate;
     }
 }
 

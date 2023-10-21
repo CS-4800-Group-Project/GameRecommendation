@@ -20,7 +20,7 @@ public class Screenshot {
         return screenshot_id;
     }
 
-    public void setScreenshotId(Long screenshotId) {
+    public void setScreenshotId(Long screenshot_id) {
         this.screenshot_id = screenshot_id;
     }
 

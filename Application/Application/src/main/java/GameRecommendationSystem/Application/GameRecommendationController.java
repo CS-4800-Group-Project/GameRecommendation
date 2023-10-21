@@ -1,13 +1,11 @@
 package GameRecommendationSystem.Application;
 
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.SerializationFeature;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,14 +16,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
-
 import javax.annotation.PostConstruct;
 import java.io.*;
 import java.util.*;
 import java.text.*;
-
-
-
 
 @Controller
 public class GameRecommendationController {
@@ -38,7 +32,7 @@ public class GameRecommendationController {
 
     @Value("${game.data.file.path}")
     private String gameDataFilePath;
-   
+    
     @Autowired
     public GameRecommendationController(RestTemplate restTemplate, ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
@@ -49,6 +43,7 @@ public class GameRecommendationController {
     private final int gamesPerPage = 100; // Number of games to fetch per request
     private final long requestDelayMillis = 1000; // Delay between requests in milliseconds (1 second)
     private final int maxGamesToFetch = 800;
+
 
 
     @PostConstruct
@@ -103,26 +98,24 @@ public class GameRecommendationController {
                 }
             saveGameDataToFile();
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-   
-
+    
 
     private void saveGameDataToFile() {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.enable(SerializationFeature.INDENT_OUTPUT); // For pretty-printing
 
-
             // Specify the path to your JSON file
             File file = new File(gameDataFilePath);
-           
+            
             if (!file.exists()) {
                 file.createNewFile();
             }
-
 
             objectMapper.writeValue(file, gamesList);
             System.out.println("gamesList has been successfully saved to game_data.json.");
@@ -132,11 +125,9 @@ public class GameRecommendationController {
         }
     }
 
-
     private void loadGameDataFromFile() {
         try {
             File file = new File(gameDataFilePath);
-
 
             if (file.exists()) {
                 ObjectMapper objectMapper = new ObjectMapper();
@@ -159,7 +150,6 @@ public class GameRecommendationController {
 
             if (jsonNode.isObject() && jsonNode.has("games")) {
                 JsonNode gamesNode = jsonNode.get("games");
-
 
                 if (gamesNode.isArray()) {
                     for (JsonNode gameNode : gamesNode) {
@@ -191,7 +181,6 @@ public class GameRecommendationController {
 
         model.addAttribute("games", gamesList); // Add the list of games to the model
 
-
         return "searchResults"; // Return the name of the HTML template
     }
    
@@ -200,18 +189,14 @@ public class GameRecommendationController {
         // Create a list to store matching games
         List<Game> matchingGames = new ArrayList<>();
 
-
         // Normalize the search title for comparison
         String normalizedTitle = normalizeTitle(title);
-
 
         // Create a Collator instance for accent-insensitive comparison
         Collator collator = Collator.getInstance(new Locale("en", "US"));
 
-
         for (Game game : gamesList) {
             String gameTitle = normalizeTitle(game.getTitle());
-
 
             // Use the Collator instance to perform accent-insensitive comparison
             if (collator.compare(normalizedTitle, gameTitle) == 0|| gameTitle.contains(normalizedTitle)) {
@@ -228,15 +213,12 @@ public class GameRecommendationController {
         return "searchResults";
     }
 
-
     private String normalizeTitle(String title) {
         // Normalize the title to lowercase and remove diacritical marks (accents)
         return Normalizer.normalize(title, Normalizer.Form.NFD)
                 .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
                 .toLowerCase();
     }
-
-
 
 
 }
