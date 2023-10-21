@@ -3,6 +3,7 @@
 <head>
   <script src="https://kit.fontawesome.com/d4ee57643b.js" crossorigin="anonymous"></script>
   <link href='https/fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <style>
     /* Set background colors */
@@ -19,6 +20,16 @@
       padding: 20px;
       background-color: #fff;
       position: relative;
+      background-color: #13151cff;
+    }
+
+    /* Add a black background color to the top navigation */
+    .topnav {
+      background-color: #171921ff;
+      overflow: hidden;
+      padding: 20px; /* Add some padding for spacing */
+      text-align: center; /* Center text within the banner */
+      width: 100%;
     }
 
     .banner {
@@ -36,6 +47,8 @@
     .search-container {
       text-align: right;
       margin-top: 20px;
+      border-radius: 20px; /* Add rounded corners */
+      
     }
 
     #title {
@@ -48,15 +61,25 @@
 
     .search-button {
       background-color: #4CB2AB;
-      color: #fff;
+      color: #13151cff;
       font-size: 16px;
       padding: 10px 15px;
       border: none;
       cursor: pointer;
     }
+    #userInput {
+      width: 300px;
+      font-size: 16px;
+      padding: 10px;
+      border: 2px solid #4CB2AB;
+      border-radius: 20px; /* Add rounded corners */
+      background: transparent;
+      color: #a6a6a9;
+    }
 
     .results-container {
       text-align: center;
+      background-color: #13151cff;
     }
 
     .custom-text {
@@ -69,25 +92,28 @@
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
+
     }
 
     .filter-container {
+      font-family: 'Roboto', sans-serif;
       width: 34%; /* Adjust the width as needed */
-      background-color: #f0f0f0;
-      border: 1px solid #ccc;
+      background-color: #13151cff;
+      border: 1px solid transparent;
       padding: 10px;
     }
 
     .filter-header {
-      background-color: #333;
-      color: white;
+      background-color: #4CB2AB;
+      color: 13151cff;
+      font-weight: bold;
       padding: 10px;
       text-align: center;
     }
 
     .filter-box {
-      border: 1px solid #ccc;
-      font-weight: bold;
+      border: 1px solid #a6a6a9;
+      color: #a6a6a9;
       padding: 10px;
     }
 
@@ -98,6 +124,7 @@
       display: flex;
       flex-wrap: wrap;
       margin-top: 0px;
+      background-color: #13151cff;
     }
 
     .game-item {
@@ -120,6 +147,7 @@
 
   .game-title {
     font-size: 24px;
+    color: #4CB2AB;
     font-weight: bold;
     margin-bottom: 10px;
   }
@@ -138,14 +166,15 @@
 </head>
 <body>
   <div class="container">
-    <div class="banner">
-      <i class="fa-solid fa-gamepad"></i>
-      <h1>Game Recommendation System</h1>
+    <div class="topnav">
+      <span style = "color: #4CB2AB;">
+        <i class="fa-solid fa-gamepad fa-2x"></i>
+      </span>
     </div>
 
     <div class="search-container">
       <form action="/search" method="get">
-        <input type="text" id="title" name="title" placeholder="Enter a game title">
+        <input type="text" id="userInput" name="title" placeholder="Enter a game title">
         <button class="search-button" type="submit">Search</button>
       </form>
     </div>
