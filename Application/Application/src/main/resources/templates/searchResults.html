@@ -143,7 +143,20 @@
     flex: 2;
     display: flex; /* Add display: flex */
     flex-direction: column; /* To stack title and description */
+    align-items: center; /* Center horizontally */
+    text-align: center;
+  
   }
+
+  .view-button {
+    background-color: #4CB2AB;
+    color: #13151cff;
+    font-size: 16px;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px; /* Adjust the margin to separate the button from the title */
+}
 
   .game-title {
     font-size: 24px;
@@ -198,8 +211,13 @@
                 <img th:src="${game.sampleCover.image}" alt="Game Cover">
               </div>
               <div class="game-details">
-                <h3 class="game-title" th:text="${game.title}">
-                </h3>
+                <h3 class="game-title" th:text="${game.title}"></h3>
+                <form action="/description" method="get">
+                  <input type="hidden" name="gameId" th:value="${game.gameId}">
+                  <button class="view-button">VIEW DETAILS</button>
+              </form>
+                
+                
               </div>
             </li>
           </th:block>

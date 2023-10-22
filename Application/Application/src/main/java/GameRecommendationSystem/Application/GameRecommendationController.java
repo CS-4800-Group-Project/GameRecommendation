@@ -13,6 +13,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
@@ -211,6 +212,32 @@ public class GameRecommendationController {
 
         // Return the results template
         return "searchResults";
+    }
+
+    @GetMapping("/description")
+    public String gameDescriptionPage(@RequestParam(name = "gameId") Long gameId, Model model) {
+
+        System.out.println("INSIDE");
+         System.out.println(gameId);
+        
+        // Create a list to store matching games
+        List<Game> matchingGames = new ArrayList<>();
+
+        for (Game game : gamesList) {
+            Long id = game.getGameId();
+           
+
+            // Use the Collator instance to perform accent-insensitive comparison
+            if (id.equals(gameId)) {
+                matchingGames.add(game);
+            }
+        }
+
+        // Add the matching games to the model
+        model.addAttribute("games", matchingGames);
+
+        // Return the results template
+        return "description";
     }
 
     private String normalizeTitle(String title) {
