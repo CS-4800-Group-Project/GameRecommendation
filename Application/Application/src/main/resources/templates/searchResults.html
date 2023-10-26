@@ -208,7 +208,7 @@
           <th:block th:each="game : ${games}">
             <li class="game-item">
               <div class="game-cover">
-                <img th:src="${game.sampleCover.image}" alt="Game Cover">
+                <img th:src="${game.sampleCover.image}" alt="Game Cover"style="object-fit:cover">
               </div>
               <div class="game-details">
                 <h3 class="game-title" th:text="${game.title}"></h3>

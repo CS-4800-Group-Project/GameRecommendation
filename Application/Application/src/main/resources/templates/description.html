@@ -161,10 +161,10 @@
         <th:block th:each="game : ${games}">
           <li class="game-item">
             <div class="game-cover">
-              <img th:src="${game.sampleCover.image}" alt="Game Cover">
+              <img th:src="${game.sampleCover.image}" alt="Game Cover" style="object-fit:cover">
             </div>
             <div class="game-details">
-              <h3 class="game-title" th:text="${game.title}"></h3>
+              <h3 class="game-title" th:text="${game.title}" style="object-fit:cover"></h3>
               <p class="moby-score">
                 <span style="font-weight: bold; font-size: 22px; color: #a6a6a9; font-family: 'Roboto', sans-serif;">Moby Score:  </span>
                 <span th:text="${game.mobyScore}"></span></p>
