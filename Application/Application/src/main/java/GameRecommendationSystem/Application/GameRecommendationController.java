@@ -189,6 +189,10 @@ public class GameRecommendationController {
     public String searchGame(@RequestParam(name = "title") String title, Model model) {
         // Create a list to store matching games
         List<Game> matchingGames = new ArrayList<>();
+        Game matchedGame = null;
+        int count;
+
+        System.out.println("\n\n\n" + title);
 
         // Normalize the search title for comparison
         String normalizedTitle = normalizeTitle(title);
@@ -201,9 +205,53 @@ public class GameRecommendationController {
 
             // Use the Collator instance to perform accent-insensitive comparison
             if (collator.compare(normalizedTitle, gameTitle) == 0|| gameTitle.contains(normalizedTitle)) {
-                matchingGames.add(game);
+                matchedGame = game;
+                System.out.println("Matched " + game.getTitle());
+                break;
             }
         }
+
+        if (matchedGame != null)
+        {
+            System.out.println("Genre " + matchedGame.getGenres().get(0).getGenreName() + "\n\n\n");
+            boolean perspective = false;
+            int persepective_ind = -1;
+            long temp_id = -1;
+            
+            System.out.println("before loop: " + persepective_ind);
+
+            for (Game game : gamesList) 
+            {
+                if(!game.getGenres().isEmpty())
+                {
+                    try
+                    {
+                        count = 0;
+                        for(int i = 0; i < game.getGenres().size(); i++)
+                        {
+                            for(int j = 0; j < matchedGame.getGenres().size(); j++)
+                            {
+                                if(game.getGenres().get(i).getGenreId()==matchedGame.getGenres().get(j).getGenreId())
+                                {
+                                    count++;
+                                }
+                            }
+                        }
+                        if(count>=3)
+                        {
+                            matchingGames.add(game);
+                        }
+                    }
+                    catch(Exception e)
+                    {
+                        System.out.println(e);
+                    }
+                }
+                    
+                
+            }
+        }
+        
 
 
         // Add the matching games to the model
