@@ -176,6 +176,12 @@
     }
 
   </style>
+  <script th:inline="javascript">
+    // Use Thymeleaf to initialize a JavaScript variable with the search query name
+    var gameTitle = /*[[${param.title}]]*/ '';
+    var gameRating = /*[[${param.rating}]]*/ 0;
+    var gameGenre = /*[[${param.genre}]]*/ '';
+</script>
 </head>
 <body>
   <div class="container">
@@ -194,15 +200,22 @@
 
     <div class="results-container">
       <h2 class="custom-text">Search Results</h2>
+      
       <div class="two-column">
-        <div class="filter-container">
-          <div class="filter-header">Filters</div>
-          <div class="filter-box">Year Published</div>
-          <div class="filter-box">User Score</div>
-          <div class="filter-box">Genre</div>
-          <div class="filter-box">Platform</div>
-        </div>
-
+          <div class="filter-container">
+            <form action="/search">
+              <input type="hidden" name="title" th:value="${param.title}" />
+              <div class="filter-header">Filters</div>
+              <div class="filter-box">Year Published</div>
+              <div class="filter-box">User Score <br>
+                <input type="range" id="raitngSlider" name="rating" min="0" max="10" step=".1" th:value="${param.rating}" />
+                <span id="sliderValueDisplay">0.0</span>
+              </div>
+              <div class="filter-box">Genre</div>
+              <div class="filter-box">Platform</div>
+              <button type="submit">Apply Filters</button>
+            </form>
+          </div>
         <ul class="game-list">
           <!-- Loop through and display matching games -->
           <th:block th:each="game : ${games}">
@@ -238,5 +251,6 @@
   href="https://statcounter.com/" target="_blank"><img class="statcounter"
   src="https://c.statcounter.com/12939560/0/d40ddb00/1/" alt="Web Analytics"
   referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
+
   <!-- End of Statcounter Code -->
 </html>
