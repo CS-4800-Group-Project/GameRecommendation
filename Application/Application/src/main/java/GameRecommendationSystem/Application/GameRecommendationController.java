@@ -186,8 +186,15 @@ public class GameRecommendationController {
     }
    
     @GetMapping("/search")
-    public String searchGame(@RequestParam(name = "title") String title, Model model) {
+    public String searchGame(
+        @RequestParam(name = "title") String title,
+        @RequestParam(name = "rating", required = false) Double ratingThreshold,
+        @RequestParam(name = "genre", required = false) String genre, 
+        Model model) {
         // Create a list to store matching games
+        if(ratingThreshold == null){
+            ratingThreshold = 0.0;
+        }
         List<Game> matchingGames = new ArrayList<>();
         Game matchedGame = null;
         int count;
@@ -237,7 +244,7 @@ public class GameRecommendationController {
                                 }
                             }
                         }
-                        if(count>=3)
+                        if(count>=2 && game.getMobyScore() >= ratingThreshold)
                         {
                             matchingGames.add(game);
                         }
