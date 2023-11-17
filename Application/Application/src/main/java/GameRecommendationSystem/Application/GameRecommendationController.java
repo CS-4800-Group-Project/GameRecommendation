@@ -214,30 +214,61 @@ public class GameRecommendationController {
         if (matchedGame != null)
         {
             System.out.println("Genre " + matchedGame.getGenres().get(0).getGenreName() + "\n\n\n");
-            boolean perspective = false;
-            int persepective_ind = -1;
-            long temp_id = -1;
-            
-            System.out.println("before loop: " + persepective_ind);
+
 
             for (Game game : gamesList) 
             {
                 if(!game.getGenres().isEmpty())
                 {
+                    // try
+                    // {
+                    //     count = 0;
+                    //     for(int i = 0; i < game.getGenres().size(); i++)
+                    //     {
+                    //         for(int j = 0; j < matchedGame.getGenres().size(); j++)
+                    //         {
+                    //             if(game.getGenres().get(i).getGenreId()==matchedGame.getGenres().get(j).getGenreId())
+                    //             {
+                    //                 count++;
+                    //             }
+                    //         }
+                    //     }
+                    //     if(count>=3)
+                    //     {
+                    //         matchingGames.add(game);
+                    //     }
+                    // }
+                    // catch(Exception e)
+                    // {
+                    //     System.out.println(e);
+                    // }
+
                     try
                     {
                         count = 0;
+                        boolean name = false;
+
                         for(int i = 0; i < game.getGenres().size(); i++)
                         {
                             for(int j = 0; j < matchedGame.getGenres().size(); j++)
                             {
-                                if(game.getGenres().get(i).getGenreId()==matchedGame.getGenres().get(j).getGenreId())
+                                String gameTitle = normalizeTitle(game.getTitle());
+
+                                if (collator.compare(normalizedTitle, gameTitle) == 0|| gameTitle.contains(normalizedTitle)) {
+                                    name = true;
+                                    break;
+                                }
+
+                                if (game.getGenres().get(i).getGenreCategoryId()==2 && matchedGame.getGenres().get(j).getGenreCategoryId()==2
+                                && game.getGenres().get(i).getGenreId()==matchedGame.getGenres().get(j).getGenreId())
                                 {
                                     count++;
+                                    if (count >= 2)
+                                        break;
                                 }
                             }
                         }
-                        if(count>=3)
+                        if(name == true || count>=2)
                         {
                             matchingGames.add(game);
                         }
