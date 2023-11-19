@@ -1,51 +1,77 @@
 package GameRecommendationSystem.Application;
-import javax.persistence.*;
 
-@Entity
-@Table(name = "genres")
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+import org.bson.types.ObjectId;
+@Document(collection = "GenreList")
 public class Genre {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long genre_id;
+    private ObjectId _id; 
 
-    private String genre_name;
+    @Field("genreCategoryId")
+    private int genreCategoryId;
 
-    private String genre_category;
+    @Field("genreCategory")
+    private String genreCategory;
 
-    private Long genre_category_id;
+    
+    @Field("genreId")
+    private int genreId;
 
-    public Long getGenreId() {
-        return genre_id;
+    @Field("genreName")
+    private String genreName;
+
+
+    public Genre() {}
+    public Genre(int genreCategoryId, String genreCategory, String genreName, int genreId) {
+    	this.genreCategoryId = genreCategoryId; 
+    	this.genreCategory = genreCategory;
+    	this.genreName = genreName; 
+    	this.genreId = genreId;
+    	
+    }
+    public int getGenreId() {
+        return genreId;
     }
 
-    public void setGenreId(Long genre_id) {
-        this.genre_id = genre_id;
+    public void setGenreId(int genreId) {
+        this.genreId = genreId;
     }
 
-    public Long getGenreCategoryId() {
-        return genre_category_id;
+    public int getGenreCategoryId() {
+        return genreCategoryId;
     }
 
-    public void setGenreCategoryId(Long genre_category_id) {
-        this.genre_category_id = genre_category_id;
+    public void setGenreCategoryId(int genreCategoryId) {
+        this.genreCategoryId = genreCategoryId;
     }
 
     public String getGenreName() {
-        return genre_name;
+        return genreName;
     }
 
-    public void setGenreName(String genre_name) {
-        this.genre_name = genre_name;
+    public void setGenreName(String genreName) {
+        this.genreName = genreName;
     }
 
     public String getGenreCategory() {
-        return genre_category;
+        return genreCategory;
     }
 
-    public void setGenreCategory(String genre_category) {
-        this.genre_category = genre_category;
+    public void setGenreCategory(String genreCategory) {
+        this.genreCategory = genreCategory;
     }
 
-   
 
+    @Override
+    public String toString() {
+        return "Genre{" +
+                "id='" + _id + '\'' +
+                ", genreCategory='" + genreCategory + '\'' +
+                ", genreId=" + genreId +
+                ", genreName='" + genreName + '\'' +
+                '}';
+    }
 }
+

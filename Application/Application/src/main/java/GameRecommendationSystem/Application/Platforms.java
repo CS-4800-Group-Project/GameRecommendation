@@ -1,28 +1,43 @@
 package GameRecommendationSystem.Application;
-import javax.persistence.*;
-
-@Entity
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+import org.bson.types.ObjectId;
+@Document(collection = "PlatformList")
 public class Platforms {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long platform_id;
-    private String platform_name;
+    private ObjectId _id;
+
+    @Field("firstReleaseDate")
     private String firstReleaseDate;
-    
-    public Long getPlatformId() {
-        return platform_id;
+
+    @Field("platformName")
+    private String platformName;
+
+    @Field("platformId")
+    private int platformId;
+
+    public Platforms() {}
+    public Platforms(String firstReleaseDate, String platformName, int platformId) {
+    	this.firstReleaseDate = firstReleaseDate; 
+    	this.platformName = platformName;
+    	this.platformId = platformId; 
+    	
+    }
+    public int getPlatformId() {
+        return platformId;
     }
 
-    public void setPlatformId(Long platform_id) {
-        this.platform_id = platform_id;
+    public void setPlatformId(int platformId) {
+        this.platformId = platformId;
     }
 
     public String getPlatformName() {
-        return platform_name;
+        return platformName;
     }
 
-    public void setPlatformName(String platform_name) {
-        this.platform_name = platform_name;
+    public void setPlatformName(String platformName) {
+        this.platformName = platformName;
     }
     public String getFirstReleaseDate() {
         return firstReleaseDate;
@@ -31,6 +46,13 @@ public class Platforms {
     public void setFirstReleaseDate(String firstReleaseDate) {
         this.firstReleaseDate = firstReleaseDate;
     }
+    @Override
+    public String toString() {
+        return "Platforms{" +
+                "id='" + _id + '\'' +
+                ", firstReleaseDate='" + firstReleaseDate + '\'' +
+                ", platformName='" + platformName + '\'' +
+                ", platformId=" + platformId +
+                '}';
+    }
 }
-
-

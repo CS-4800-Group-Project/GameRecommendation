@@ -2,23 +2,17 @@ package GameRecommendationSystem.Application;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import com.fasterxml.jackson.databind.SerializationFeature;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
-import java.io.*;
 import java.util.*;
 import java.text.*;
 
@@ -30,9 +24,6 @@ public class GameRecommendationController {
     private ObjectMapper objectMapper;
     private List<Game> gamesList = new ArrayList<>();
 
-    @Value("${game.data.file.path}")
-    private String gameDataFilePath;
-
     @Autowired
     public GameRecommendationController(RestTemplate restTemplate, ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
@@ -41,13 +32,12 @@ public class GameRecommendationController {
 
     private final int gamesPerPage = 100; // Number of games to fetch per request
     private final long requestDelayMillis = 1000; // Delay between requests in milliseconds (1 second)
-    private final int maxGamesToFetch = 800;
+    private final int maxGamesToFetch = 0;
 
     @PostConstruct
     public void loadGameList() {
         try {
 
-            loadGameDataFromFile();
             if (gamesList.isEmpty()) {
                 // If there are no games in game_data.json, fetch games from the API
                 int offset = 0; // Offset for pagination
@@ -94,7 +84,6 @@ public class GameRecommendationController {
                     Thread.sleep(requestDelayMillis);
 
                 }
-                saveGameDataToFile();
             }
 
         } catch (Exception e) {
@@ -102,40 +91,6 @@ public class GameRecommendationController {
         }
     }
 
-    private void saveGameDataToFile() {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.enable(SerializationFeature.INDENT_OUTPUT); // For pretty-printing
-
-            // Specify the path to your JSON file
-            File file = new File(gameDataFilePath);
-
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-
-            objectMapper.writeValue(file, gamesList);
-            System.out.println("gamesList has been successfully saved to game_data.json.");
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("Failed to save game data to game_data.json: " + e.getMessage());
-        }
-    }
-
-    private void loadGameDataFromFile() {
-        try {
-            File file = new File(gameDataFilePath);
-
-            if (file.exists()) {
-                ObjectMapper objectMapper = new ObjectMapper();
-                gamesList = objectMapper.readValue(file, new TypeReference<List<Game>>() {
-                });
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("Failed to load game data from game_data.json: " + e.getMessage());
-        }
-    }
 
     private List<Game> convertJsonToGameList(JsonNode jsonNode) {
         List<Game> games = new ArrayList<>();
@@ -177,7 +132,7 @@ public class GameRecommendationController {
         return "searchResults"; // Return the name of the HTML template
     }
 
-    @GetMapping("/search")
+    @GetMapping("/searched")
     public String searchGame(
             @RequestParam(name = "title") String title,
             @RequestParam(name = "rating", required = false) Double ratingThreshold,
@@ -281,30 +236,6 @@ public class GameRecommendationController {
         return "searchResults";
     }
 
-    @GetMapping("/description")
-    public String gameDescriptionPage(@RequestParam(name = "gameId") Long gameId, Model model) {
-
-        // System.out.println("INSIDE");
-        // System.out.println(gameId);
-
-        // Create a list to store matching games
-        List<Game> matchingGames = new ArrayList<>();
-
-        for (Game game : gamesList) {
-            Long id = game.getGameId();
-
-            // Use the Collator instance to perform accent-insensitive comparison
-            if (id.equals(gameId)) {
-                matchingGames.add(game);
-            }
-        }
-
-        // Add the matching games to the model
-        model.addAttribute("games", matchingGames);
-
-        // Return the results template
-        return "description";
-    }
 
     private String normalizeTitle(String title) {
         // Normalize the title to lowercase and remove diacritical marks (accents)

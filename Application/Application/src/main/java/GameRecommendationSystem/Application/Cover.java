@@ -1,26 +1,31 @@
 package GameRecommendationSystem.Application;
-import javax.persistence.*;
 
-@Entity
-@Table(name = "covers")
+import org.springframework.data.mongodb.core.mapping.Field;
+
 public class Cover {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long cover_id;
-
+    @Field("image")
     private String image;
+
+    @Field("thumbnailImage")
     private String thumbnailImage;
+
+    @Field("width")
     private int width;
+
+    @Field("height")
     private int height;
 
-    // Define getters and setters
+    @Field("coverId")
+    private String coverId;
 
-    public Long getCoverId() {
-        return cover_id;
+  
+
+    public String getCoverId() {
+        return coverId;
     }
 
-    public void setCoverId(Long cover_id) {
-        this.cover_id = cover_id;
+    public void setCoverId(String coverId) {
+        this.coverId = coverId;
     }
 
     public String getImage() {

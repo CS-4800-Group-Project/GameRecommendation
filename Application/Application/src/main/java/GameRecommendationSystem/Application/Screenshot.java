@@ -1,27 +1,34 @@
 package GameRecommendationSystem.Application;
-import javax.persistence.*;
 
-@Entity
-@Table(name = "screenshots")
+import org.springframework.data.mongodb.core.mapping.Field;
+
 public class Screenshot {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long screenshot_id;
-
+    @Field("image")
     private String image;
-    private String thumbnail_image;
+
+    @Field("width")
     private int width;
+
+    @Field("height")
     private int height;
+
+    @Field("caption")
     private String caption;
 
-    // Define getters and setters
+    @Field("thumbnailImage")
+    private String thumbnailImage;
 
-    public Long getScreenshotId() {
-        return screenshot_id;
+    @Field("screenshotId")
+    private String screenshotId;
+
+
+
+    public String getScreenshotId() {
+        return screenshotId;
     }
 
-    public void setScreenshotId(Long screenshot_id) {
-        this.screenshot_id = screenshot_id;
+    public void setScreenshotId(String screenshotId) {
+        this.screenshotId = screenshotId;
     }
 
     public String getImage() {
@@ -33,11 +40,11 @@ public class Screenshot {
     }
 
     public String getThumbnailImage() {
-        return thumbnail_image;
+        return thumbnailImage;
     }
 
-    public void setThumbnailImage(String thumbnail_image) {
-        this.thumbnail_image = thumbnail_image;
+    public void setThumbnailImage(String thumbnailImage) {
+        this.thumbnailImage = thumbnailImage;
     }
 
     public int getWidth() {

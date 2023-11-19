@@ -200,7 +200,6 @@
 
     <div class="results-container">
       <h2 class="custom-text">Search Results</h2>
-      
       <div class="two-column">
           <div class="filter-container">
             <form action="/search">
@@ -208,20 +207,69 @@
               <div class="filter-header">Filters</div>
               <div class="filter-box">Year Published</div>
               <div class="filter-box">User Score <br>
-                <input type="range" id="raitngSlider" name="rating" min="0" max="10" step=".1" th:value="${param.rating}" />
+                <input type="range" id="ratingSlider" name="rating" min="0" max="10" step=".1" th:value="${param.rating}" />
                 <span id="sliderValueDisplay">0.0</span>
               </div>
-              <div class="filter-box">Genre</div>
-              <div class="filter-box">Platform</div>
-              <button type="submit">Apply Filters</button>
-            </form>
+              <div class="filter-box">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="genreDropdown" onclick="toggleGenreCheckboxes()">
+                        Genre
+                    </button>
+                    <div class="dropdown-menu" id="genreCheckboxList" style="display: none;">
+                        <form action="/filterGenres" method="post">
+                            <div th:each="category : ${genreCategory}">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" th:id="${'genreCheckbox-' + category}" th:value="${category}" name="genreCategory"/>
+                                    <label class="form-check-label" th:for="${'genreCheckbox-' + category}" th:text="${category}"></label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Apply Filters</button>
+                        </form>
+                    </div>
+                </div>
+              </div>
+        
+            <script>
+                function toggleGenreCheckboxes() {
+                    var checkboxList = document.getElementById('genreCheckboxList');
+                    checkboxList.style.display = checkboxList.style.display === 'none' ? 'block' : 'none';
+                }
+            </script>
+            
+              <div class="filter-box">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="platformDropdown" onclick="togglePlatformCheckboxes()">
+                        Platform
+                    </button>
+                    <div class="dropdown-menu" id="platformCheckboxList" style="display: none;">
+                        <form action="/filterPlatforms" method="post">
+                            <div th:each="platform : ${platformNames}">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" th:id="${'platformCheckbox-' + platform}" th:value="${platform}" name="platformNames"/>
+                                    <label class="form-check-label" th:for="${'platformCheckbox-' + platform}" th:text="${platform}"></label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Apply Filters</button>
+                        </form>
+                    </div>
+                </div>
+              </div>
+            
+            <script>
+                function togglePlatformCheckboxes() {
+                    var checkboxList = document.getElementById('platformCheckboxList');
+                    checkboxList.style.display = checkboxList.style.display === 'none' ? 'block' : 'none';
+                }
+            </script>
+          
           </div>
+      </div>
+        
         <ul class="game-list">
-          <!-- Loop through and display matching games -->
           <th:block th:each="game : ${games}">
             <li class="game-item">
               <div class="game-cover">
-                <img th:src="${game.sampleCover.image}" alt="Game Cover"style="object-fit:cover">
+                <img th:if="${game.sampleCover != null}" th:src="${game.sampleCover.image}" alt="Cover Image" />
               </div>
               <div class="game-details">
                 <h3 class="game-title" th:text="${game.title}"></h3>
@@ -236,7 +284,51 @@
           </th:block>
         </ul>
       </div>
+    
+        
+    <ul class="game-list">
+      <th:block th:each="game : ${filteredPlatform}">
+        <li class="game-item">
+          <div class="game-cover">
+            <img th:if="${game.sampleCover != null}" th:src="${game.sampleCover.image}" alt="Cover Image" />
+          </div>
+          <div class="game-details">
+            <h3 class="game-title" th:text="${game.title}"></h3>
+            <form action="/description" method="get">
+              <input type="hidden" name="gameId" th:value="${game.gameId}">
+              <button class="view-button">VIEW DETAILS</button>
+          </form>
+            
+            
+          </div>
+        </li>
+      </th:block>
+    </ul>
+  </div>
+</div>
+</div>    
+<ul class="game-list">
+  <!-- Loop through and display matching games -->
+  <th:block th:each="game : ${filteredGenre}">
+    <li class="game-item">
+      <div class="game-cover">
+        <img th:if="${game.sampleCover != null}" th:src="${game.sampleCover.image}" alt="Cover Image" />
+      </div>
+      <div class="game-details">
+        <h3 class="game-title" th:text="${game.title}"></h3>
+        <form action="/description" method="get">
+          <input type="hidden" name="gameId" th:value="${game.gameId}">
+          <button class="view-button">VIEW DETAILS</button>
+      </form>
+        
+        
+      </div>
+    </li>
+  </th:block>
+</ul>
+</div>
     </div>
+    
   </div>
 </body>
 <!-- Default Statcounter code for Game Recommendation http://group-name.com -->
