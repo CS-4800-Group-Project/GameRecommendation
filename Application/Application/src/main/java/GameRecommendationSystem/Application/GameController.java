@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.util.*;
 
-
 import org.springframework.ui.Model;
 
 @Controller
@@ -19,7 +18,7 @@ public class GameController {
 
     @Autowired
     private GameService gameService;
-    
+
     @Autowired
     private GenreService genreService;
 
@@ -36,23 +35,49 @@ public class GameController {
 
         return "description";
     }
+
     @GetMapping("/search")
     public String searchGame(@RequestParam(name = "title") String title, Model model) {
-        //Search game by title
-        model.addAttribute("games", gameRepository.findByTitleIgnoreCaseContainingRegex(title));
-        
-        //Print out list of genre category under filter box Genre
+        int perspective = -1;
+        int genre = -1;
+        int gameplay = -1;
+
+        List<Game> gameList = gameRepository.findByTitleIgnoreCaseContainingRegex(title);
+
+        Game matchedGame = gameList.get(0);
+
+        for (int i = 0; i < matchedGame.getGenres().size(); i++) {
+            if (matchedGame.getGenres().get(i).getGenreCategoryId() == 1 && genre == -1)
+                genre = matchedGame.getGenres().get(i).getGenreId();
+            else if (matchedGame.getGenres().get(i).getGenreCategoryId() == 2 && perspective == -1) {
+                perspective = matchedGame.getGenres().get(i).getGenreId();
+            } else if (matchedGame.getGenres().get(i).getGenreCategoryId() == 4 && gameplay == -1)
+                gameplay = matchedGame.getGenres().get(i).getGenreId();
+        }
+
+        if (gameplay != -1 && genre != -1 && perspective != -1) {
+            System.out.println("\ngameplay\n");
+            gameList.addAll(gameRepository.findGamesByBothConditions(2, perspective, 1, genre, 4, gameplay));
+        }
+
+        // else if (gameplay != -1 && genre != -1 && perspective != -1)
+
+        // Search game by title
+        model.addAttribute("games", gameList);
+
+        // Print out list of genre category under filter box Genre
         List<String> genreCategories = genreService.getAllDistinctGenreCategories();
         model.addAttribute("genreCategory", genreCategories);
 
-        //Print out list of platforms under filter box Platform
+        // Print out list of platforms under filter box Platform
         List<String> platformNames = platformService.getAllDistinctPlatformNames();
         model.addAttribute("platformNames", platformNames);
         return "searchResults";
     }
 
     @PostMapping("/filterPlatforms")
-    public String platformFilter(@RequestParam(name = "platformNames", required = false) List<String> selectedPlatforms, Model model) {
+    public String platformFilter(@RequestParam(name = "platformNames", required = false) List<String> selectedPlatforms,
+            Model model) {
         System.out.println("Selected Platforms: " + selectedPlatforms);
 
         List<Game> filteredPlatform = gameRepository.findByPlatforms(selectedPlatforms);
@@ -62,7 +87,8 @@ public class GameController {
     }
 
     @PostMapping("/filterGenres")
-    public String genreFilter(@RequestParam(name = "genreCategory", required = false) List<String> selectedGenres, Model model) {
+    public String genreFilter(@RequestParam(name = "genreCategory", required = false) List<String> selectedGenres,
+            Model model) {
         System.out.println("Selected genre categories: " + selectedGenres);
 
         List<Game> filteredGenre = gameService.findGamesByGenreCategory(selectedGenres);
@@ -70,15 +96,5 @@ public class GameController {
         model.addAttribute("filteredGenre", filteredGenre);
         return "searchResults";
     }
-    
-
-
-
-    
-    
-
-
-
 
 }
-
