@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
   <script src="https://kit.fontawesome.com/d4ee57643b.js" crossorigin="anonymous"></script>
   <link href='https/fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
@@ -27,8 +28,10 @@
     .topnav {
       background-color: #171921ff;
       overflow: hidden;
-      padding: 20px; /* Add some padding for spacing */
-      text-align: center; /* Center text within the banner */
+      padding: 20px;
+      /* Add some padding for spacing */
+      text-align: center;
+      /* Center text within the banner */
       width: 100%;
     }
 
@@ -47,8 +50,8 @@
     .search-container {
       text-align: right;
       margin-top: 20px;
-      border-radius: 20px; /* Add rounded corners */
-      
+      border-radius: 20px;
+      /* Add rounded corners */
     }
 
     #title {
@@ -67,18 +70,20 @@
       border: none;
       cursor: pointer;
     }
+
     #userInput {
       width: 300px;
       font-size: 16px;
       padding: 10px;
       border: 2px solid #4CB2AB;
-      border-radius: 20px; /* Add rounded corners */
+      border-radius: 20px;
+      /* Add rounded corners */
       background: transparent;
       color: #a6a6a9;
     }
 
     .results-container {
-      text-align: center;
+      text-align: left;
       background-color: #13151cff;
     }
 
@@ -92,12 +97,12 @@
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-
     }
 
     .filter-container {
       font-family: 'Roboto', sans-serif;
-      width: 34%; /* Adjust the width as needed */
+      width: 34%;
+      /* Adjust the width as needed */
       background-color: #13151cff;
       border: 1px solid transparent;
       padding: 10px;
@@ -118,7 +123,8 @@
     }
 
     .game-list {
-      width: 65%; /* Adjust the width as needed */
+      width: 65%;
+      /* Adjust the width as needed */
       list-style: none;
       padding: 0;
       display: flex;
@@ -128,42 +134,46 @@
     }
 
     .game-item {
-    display: flex; /* Add display: flex */
-    align-items: flex-start;
-    width: 45%;
-    border: 1px solid #ccc;
-  }
+      display: flex;
+      /* Add display: flex */
+      align-items: flex-start;
+      width: 45%;
+      border: 1px solid #ccc;
+    }
 
-  .game-cover img {
-    width: 90px;
-    height: 180px;
-  }
+    .game-cover img {
+      width: 90px;
+      height: 180px;
+    }
 
-  .game-details {
-    flex: 2;
-    display: flex; /* Add display: flex */
-    flex-direction: column; /* To stack title and description */
-    align-items: center; /* Center horizontally */
-    text-align: center;
-  
-  }
+    .game-details {
+      flex: 2;
+      display: flex;
+      /* Add display: flex */
+      flex-direction: column;
+      /* To stack title and description */
+      align-items: center;
+      /* Center horizontally */
+      text-align: center;
+    }
 
-  .view-button {
-    background-color: #4CB2AB;
-    color: #13151cff;
-    font-size: 16px;
-    padding: 10px 15px;
-    border: none;
-    cursor: pointer;
-    margin-top: 10px; /* Adjust the margin to separate the button from the title */
-}
+    .view-button {
+      background-color: #4CB2AB;
+      color: #13151cff;
+      font-size: 16px;
+      padding: 10px 15px;
+      border: none;
+      cursor: pointer;
+      margin-top: 10px;
+      /* Adjust the margin to separate the button from the title */
+    }
 
-  .game-title {
-    font-size: 24px;
-    color: #4CB2AB;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
+    .game-title {
+      font-size: 24px;
+      color: #4CB2AB;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
 
     .game-genre-category {
       font-size: 18px;
@@ -175,18 +185,69 @@
       color: #4CB2AB;
     }
 
+    .category {
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: left;
+      padding: 5px;
+      border-radius: 5px;
+      margin-bottom: 5px;
+    }
+
+    .category:hover {
+      background-color: #f0f0f0;
+    }
+
+    .category-options {
+      display : none;
+      padding: 5px;
+    }
+
+    .category.active .category-options {
+      display: block;
+    }
+
+    input[type="checkbox"] {
+      margin-right: 5px;
+    }
+    .category-options input[type="checkbox"],
+    .category-options label {
+    color: white;
+    align-items: left;
+    }
+    
   </style>
   <script th:inline="javascript">
     // Use Thymeleaf to initialize a JavaScript variable with the search query name
     var gameTitle = /*[[${param.title}]]*/ '';
     var gameRating = /*[[${param.rating}]]*/ 0;
     var gameGenre = /*[[${param.genre}]]*/ '';
-</script>
+  </script>
 </head>
+<script>
+  function toggleCategory(element) {
+    var categoryKey = element.getAttribute('data-category');
+    var categoryOptions = document.getElementById(categoryKey + '-options');
+    if (categoryOptions) {
+        if (categoryOptions.style.display === 'none' || categoryOptions.style.display === '') {
+            categoryOptions.style.display = 'block';
+        } else {
+            categoryOptions.style.display = 'none';
+        }
+    }
+}
+</script>
+<script>
+  function togglePlatformCheckboxes() {
+      var checkboxList1 = document.getElementById('platformCheckboxList');
+      checkboxList1.style.display = checkboxList1.style.display === 'none' ? 'block' : 'none';
+  }
+</script>
 <body>
   <div class="container">
     <div class="topnav">
-      <span style = "color: #4CB2AB;">
+      <span style="color: #4CB2AB;">
         <i class="fa-solid fa-gamepad fa-2x"></i>
       </span>
     </div>
@@ -201,148 +262,116 @@
     <div class="results-container">
       <h2 class="custom-text">Search Results</h2>
       <div class="two-column">
-          <div class="filter-container">
-            <form action="/search">
-              <input type="hidden" name="title" th:value="${param.title}" />
-              <div class="filter-header">Filters</div>
-              <div class="filter-box">Year Published</div>
-              <div class="filter-box">User Score <br>
-                <input type="range" id="ratingSlider" name="rating" min="0" max="10" step=".1" th:value="${param.rating}" />
-                <span id="sliderValueDisplay">0.0</span>
-              </div>
-              <div class="filter-box">
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="genreDropdown" onclick="toggleGenreCheckboxes()">
-                        Genre
-                    </button>
-                    <div class="dropdown-menu" id="genreCheckboxList" style="display: none;">
-                        <form action="/filterGenres" method="post">
-                            <div th:each="category : ${genreCategory}">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" th:id="${'genreCheckbox-' + category}" th:value="${category}" name="genreCategory"/>
-                                    <label class="form-check-label" th:for="${'genreCheckbox-' + category}" th:text="${category}"></label>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Apply Filters</button>
-                        </form>
+        <div class="filter-container">
+          <form action="/search" method="get">
+            <input type="hidden" name="title" th:value="${param.title}" />
+            <div class="filter-header">Filters</div>
+            <div class="filter-box">Year Published</div>
+            <div class="filter-box">User Score <br>
+              <input type="range" id="ratingSlider" name="rating" min="0" max="10" step=".1" th:value="${param.rating}" />
+              <span id="sliderValueDisplay">0.0</span>
+              <div class="filter-box">Categories
+                  <div th:each="categoryEntry : ${genreNamesByCategory}">
+                    <div class="category" th:data-category="${categoryEntry.key}" onclick="toggleCategory(this)">
+                      <span th:text="${categoryEntry.key}"></span>
+                      <span>&#9660;</span>
                     </div>
-                </div>
-              </div>
-        
-            <script>
-                function toggleGenreCheckboxes() {
-                    var checkboxList = document.getElementById('genreCheckboxList');
-                    checkboxList.style.display = checkboxList.style.display === 'none' ? 'block' : 'none';
-                }
-            </script>
-            
-              <div class="filter-box">
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="platformDropdown" onclick="togglePlatformCheckboxes()">
-                        Platform
-                    </button>
-                    <div class="dropdown-menu" id="platformCheckboxList" style="display: none;">
-                        <form action="/filterPlatforms" method="post">
-                            <div th:each="platform : ${platformNames}">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" th:id="${'platformCheckbox-' + platform}" th:value="${platform}" name="platformNames"/>
-                                    <label class="form-check-label" th:for="${'platformCheckbox-' + platform}" th:text="${platform}"></label>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Apply Filters</button>
-                        </form>
+                    <div class="category-options" th:id="${categoryEntry.key + '-options'}">
+                      <div th:if="${not #lists.isEmpty(categoryEntry.value)}">
+                        <!-- Check if the current category has associated genreNames -->
+                        <label th:each="option : ${categoryEntry.value}">
+                          <input type="checkbox" th:id="${'checkbox-' + option}" th:value="${option + ':' + categoryEntry.key}" name="selectedGenres" />
+                          <span th:text="${option}"></span><br>
+                        </label>
+                      </div>
+                      <div th:if="${#lists.isEmpty(categoryEntry.value)}">
+                        <p>No genres found for the selected category.</p>
+                      </div>
                     </div>
-                </div>
+                  </div>
+                
               </div>
-            
-            <script>
-                function togglePlatformCheckboxes() {
-                    var checkboxList = document.getElementById('platformCheckboxList');
-                    checkboxList.style.display = checkboxList.style.display === 'none' ? 'block' : 'none';
-                }
-            </script>
-          
-          </div>
-      </div>
-        
+              <div>
+                <div class="filter-box">
+                <div class="category" onclick="togglePlatformCheckboxes()">
+                    <span>Platform</span>
+                    <span>&#9660;</span>
+                </div>
+                <div class="category-options" id="platformCheckboxList" style="display: none;">
+                        <div th:each="platform : ${platformNames}">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" th:id="${'platformCheckbox-' + platform}" th:value="${platform}" name="platformNames" />
+                                <label class="form-check-label" th:for="${'platformCheckbox-' + platform}" th:text="${platform}"></label>
+                            </div>
+                        </div>
+                        
+                    
+                </div>
+                </div>
+            </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Apply Filters</button>
+          </form>
+        </div>
+
         <ul class="game-list">
-          <th:block th:each="game : ${games}">
-            <li class="game-item">
-              <div class="game-cover">
-                <img th:if="${game.sampleCover != null}" th:src="${game.sampleCover.image}" alt="Cover Image" />
-              </div>
-              <div class="game-details">
-                <h3 class="game-title" th:text="${game.title}"></h3>
-                <form action="/description" method="get">
-                  <input type="hidden" name="gameId" th:value="${game.gameId}">
-                  <button class="view-button">VIEW DETAILS</button>
-              </form>
-                
-                
-              </div>
-            </li>
+          <th:block th:if="${#lists.isEmpty(filteredGames)}">
+            <!-- Display all games -->
+            <th:block th:each="game : ${games}">
+              <li class="game-item">
+                <div class="game-cover">
+                  <img th:if="${game.sampleCover != null}" th:src="${game.sampleCover.image}" alt="Cover Image" />
+                </div>
+                <div class="game-details">
+                  <h3 class="game-title" th:text="${game.title}"></h3>
+                  <form action="/description" method="get">
+                    <input type="hidden" name="gameId" th:value="${game.gameId}">
+                    <button class="view-button">VIEW DETAILS</button>
+                  </form>
+                </div>
+              </li>
+            </th:block>
+          </th:block>
+
+          <th:block th:else>
+            <!-- Display the first 100 games from filteredGames -->
+            <th:block th:each="index : ${#numbers.sequence(0, 99)}">
+              <li class="game-item">
+                <div class="game-cover">
+                  <img th:if="${filteredGames.size() > index}" th:src="${filteredGames[index].sampleCover != null ? filteredGames[index].sampleCover.image : ''}" alt="Cover Image" />
+                </div>
+                <div class="game-details">
+                  <h3 class="game-title" th:if="${filteredGames.size() > index}" th:text="${filteredGames[index].title}"></h3>
+                  <form th:if="${filteredGames.size() > index}" action="/description" method="get">
+                    <input type="hidden" name="gameId" th:value="${filteredGames[index].gameId}">
+                    <button class="view-button">VIEW DETAILS</button>
+                  </form>
+                </div>
+              </li>
+            </th:block>
           </th:block>
         </ul>
-      </div>
-    
-        
-    <ul class="game-list">
-      <th:block th:each="game : ${filteredPlatform}">
-        <li class="game-item">
-          <div class="game-cover">
-            <img th:if="${game.sampleCover != null}" th:src="${game.sampleCover.image}" alt="Cover Image" />
-          </div>
-          <div class="game-details">
-            <h3 class="game-title" th:text="${game.title}"></h3>
-            <form action="/description" method="get">
-              <input type="hidden" name="gameId" th:value="${game.gameId}">
-              <button class="view-button">VIEW DETAILS</button>
-          </form>
-            
-            
-          </div>
-        </li>
-      </th:block>
-    </ul>
-  </div>
-</div>
-</div>    
-<ul class="game-list">
-  <!-- Loop through and display matching games -->
-  <th:block th:each="game : ${filteredGenre}">
-    <li class="game-item">
-      <div class="game-cover">
-        <img th:if="${game.sampleCover != null}" th:src="${game.sampleCover.image}" alt="Cover Image" />
-      </div>
-      <div class="game-details">
-        <h3 class="game-title" th:text="${game.title}"></h3>
-        <form action="/description" method="get">
-          <input type="hidden" name="gameId" th:value="${game.gameId}">
-          <button class="view-button">VIEW DETAILS</button>
-      </form>
-        
-        
-      </div>
-    </li>
-  </th:block>
-</ul>
-</div>
-    </div>
-    
-  </div>
+      </div> <!-- Closing tag for <div class="two-column"> -->
+    </div> <!-- Closing tag for <div class="results-container"> -->
+  </div> <!-- Closing tag for <div class="container"> -->
 </body>
+
+
+
 <!-- Default Statcounter code for Game Recommendation http://group-name.com -->
 <script type="text/javascript">
   var sc_project=12939560; 
   var sc_invisible=1; 
   var sc_security="d40ddb00"; 
-  </script>
-  <script type="text/javascript"
-  src="https://www.statcounter.com/counter/counter.js" async></script>
-  <noscript><div class="statcounter"><a title="Web Analytics"
-  href="https://statcounter.com/" target="_blank"><img class="statcounter"
-  src="https://c.statcounter.com/12939560/0/d40ddb00/1/" alt="Web Analytics"
-  referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
+</script>
+<script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+<noscript>
+  <div class="statcounter">
+    <a title="Web Analytics" href="https://statcounter.com/" target="_blank">
+      <img class="statcounter" src="https://c.statcounter.com/12939560/0/d40ddb00/1/" alt="Web Analytics" referrerPolicy="no-referrer-when-downgrade">
+    </a>
+  </div>
+</noscript>
+<!-- End of Statcounter Code -->
 
-  <!-- End of Statcounter Code -->
 </html>
