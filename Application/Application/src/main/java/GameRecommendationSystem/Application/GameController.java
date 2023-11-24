@@ -3,10 +3,10 @@ package GameRecommendationSystem.Application;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.springframework.ui.Model;
 
@@ -21,6 +21,7 @@ public class GameController {
 
     @Autowired
     private GenreService genreService;
+    
 
     @Autowired
     private PlatformService platformService;
@@ -37,13 +38,18 @@ public class GameController {
     }
 
     @GetMapping("/search")
-    public String searchGame(@RequestParam(name = "title") String title, Model model) {
+    public String searchGame(@RequestParam(name = "title") String title, 
+    @RequestParam(name = "selectedGenres", required = false) List<String> selectedGenres,
+    @RequestParam(name = "platformNames", required = false) List<String> selectedPlatforms,
+    @RequestParam(name = "yearPublished", required = false) List<String> selectedYears,
+    Model model) {
         int perspective = -1;
         int genre1 = -1;
         int genre2 = -1;
         int gameplay = -1;
         int setting = -1;
 
+        // Search game by title
         List<Game> gameList = gameRepository.findByTitleIgnoreCaseContainingRegex(title);
 
         Game matchedGame = gameList.get(0);
@@ -83,40 +89,46 @@ public class GameController {
         }
 
         // else if (gameplay != -1 && genre != -1 && perspective != -1)
+        
+        List<Game> filteredGames = new ArrayList<>();
 
-        // Search game by title
-        model.addAttribute("games", gameList);
-
+        if (selectedGenres != null && !selectedGenres.isEmpty() 
+        || selectedPlatforms != null && !selectedPlatforms.isEmpty()
+        || selectedYears != null && !selectedYears.isEmpty()) {
+            
+            filteredGames = gameService.filterGamesByGenresAndPlatform(selectedGenres, selectedPlatforms, selectedYears);
+        } 
+    
         // Print out list of genre category under filter box Genre
         List<String> genreCategories = genreService.getAllDistinctGenreCategories();
-        model.addAttribute("genreCategory", genreCategories);
-
+        
         // Print out list of platforms under filter box Platform
         List<String> platformNames = platformService.getAllDistinctPlatformNames();
+        List<String> platformNameskeep = List.of("Windows", "Macintosh", "iPhone","iPad", "Android", "Nintendo Switch","PlayStation 5", "PlayStation 4", "PlayStation 3", "Linux", "DOS", "Xbox One", "Browser", "Arcade", "Wii");
+        platformNames.retainAll(platformNameskeep);
+        
+        List<String> yearPublished = IntStream.rangeClosed(1984, 2023)
+                                             .mapToObj(Integer::toString)
+                                             .collect(Collectors.toList());
+        
+        Map<String, List<String>> genreNamesByCategory = genreService.getGenreNamesByCategory();
+    
+        List<String> allGenreCategories = genreService.getAllDistinctGenreCategories();
+
+        model.addAttribute("games", gameList);
+        model.addAttribute("genreCategories", genreCategories);
         model.addAttribute("platformNames", platformNames);
+        model.addAttribute("genreCategories", allGenreCategories);
+        model.addAttribute("filteredGames", filteredGames);
+        model.addAttribute("genreNamesByCategory", genreNamesByCategory);
+        model.addAttribute("yearPublished", yearPublished);
         return "searchResults";
     }
 
-    @PostMapping("/filterPlatforms")
-    public String platformFilter(@RequestParam(name = "platformNames", required = false) List<String> selectedPlatforms,
-            Model model) {
-        System.out.println("Selected Platforms: " + selectedPlatforms);
+   
 
-        List<Game> filteredPlatform = gameRepository.findByPlatforms(selectedPlatforms);
 
-        model.addAttribute("filteredPlatform", filteredPlatform);
-        return "searchResults";
-    }
 
-    @PostMapping("/filterGenres")
-    public String genreFilter(@RequestParam(name = "genreCategory", required = false) List<String> selectedGenres,
-            Model model) {
-        System.out.println("Selected genre categories: " + selectedGenres);
 
-        List<Game> filteredGenre = gameService.findGamesByGenreCategory(selectedGenres);
-
-        model.addAttribute("filteredGenre", filteredGenre);
-        return "searchResults";
-    }
 
 }
