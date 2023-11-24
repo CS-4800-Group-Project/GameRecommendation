@@ -227,19 +227,32 @@
     var gameTitle = /*[[${param.title}]]*/ '';
     var gameRating = /*[[${param.rating}]]*/ 0;
     var gameGenre = /*[[${param.genre}]]*/ '';
-    var gamesListCount = /*[[${games.size()}]]*/ 0;
+    var gameListCount = /*[[${games.size()}]]*/ 0;
     var filteredGamesCount = /*[[${filteredGames.size()}]]*/ 0;
     
-    // Update the search results title with the count
+    // Function to update search results title
+    function updateSearchResultsTitle() {
+        var searchResultsTitle = document.getElementById('searchResultsTitle');
+        if (searchResultsTitle) {
+            var countToDisplay = (gameTitle !== '' && filteredGamesCount > 0) ? filteredGamesCount : gameListCount;
+            searchResultsTitle.innerHTML = 'Search Results (' + countToDisplay + ')';
+        }
+    }
+
+    // Update the search results title when the DOM is fully loaded
     document.addEventListener('DOMContentLoaded', function () {
-      var searchResultsTitle = document.getElementById('searchResultsTitle');
-      if (searchResultsTitle) {
-        var countToDisplay = (gameTitle !== '') ? gamesListCount : filteredGamesCount;
-        // Set inner HTML instead of appending
-        searchResultsTitle.innerHTML = 'Search Results (' + countToDisplay + ')';
-      }
+        updateSearchResultsTitle();
     });
-  </script>
+
+    // Update the search results title when the "APPLY FILTERS" button is clicked
+    document.addEventListener('click', function(event) {
+        if (event.target.id === 'applyFiltersButton') {
+            updateSearchResultsTitle();
+        }
+    });
+</script>
+
+
   
 </head>
 <script>
@@ -349,7 +362,7 @@
             </div>
             </div>
             <div class="center-button">
-              <button type="submit" class="view-button">APPLY FILTERS</button>
+              <button id="applyFiltersButton" type="submit" class="view-button">APPLY FILTERS</button>
             </div>
           </form>
         </div>

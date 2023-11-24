@@ -96,7 +96,7 @@ public class GameController {
         || selectedPlatforms != null && !selectedPlatforms.isEmpty()
         || selectedYears != null && !selectedYears.isEmpty()) {
             
-            filteredGames = gameService.filterGamesByGenresAndPlatform(selectedGenres, selectedPlatforms, selectedYears);
+            filteredGames = gameService.filterGamesByGenresAndPlatformAndYear(selectedGenres, selectedPlatforms, selectedYears);
         } 
     
         // Print out list of genre category under filter box Genre
@@ -124,11 +124,5 @@ public class GameController {
         model.addAttribute("yearPublished", yearPublished);
         return "searchResults";
     }
-
-   
-
-
-
-
 
 }

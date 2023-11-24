@@ -1,7 +1,6 @@
 package GameRecommendationSystem.Application;
 
 import java.util.*;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +21,17 @@ public class GenreService {
 
         return new ArrayList<>(distinctCategories);
     }
+    public Map<String, List<String>> getGenreNamesByCategory() {
+        List<Genre> allGenres = genreRepository.findAll();
+
+        return allGenres.stream()
+                .collect(Collectors.groupingBy(
+                        Genre::getGenreCategory,
+                        Collectors.mapping(Genre::getGenreName, Collectors.toList())
+                ));
+    }
+
+
 }
 
 
