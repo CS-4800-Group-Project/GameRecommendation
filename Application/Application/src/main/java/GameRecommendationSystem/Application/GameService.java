@@ -19,8 +19,8 @@ public class GameService {
         List<Game> games = gameRepository.findByGenreCategory(genreCategory);
         
         // Log the results and parameters
-        System.out.println("Received genre categories: " + genreCategory);
-        System.out.println("Number of games found: " + games.size());
+        // System.out.println("Received genre categories: " + genreCategory);
+        // System.out.println("Number of games found: " + games.size());
         
         return games;
     }
