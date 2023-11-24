@@ -219,11 +219,24 @@
     
   </style>
   <script th:inline="javascript">
-    // Use Thymeleaf to initialize a JavaScript variable with the search query name
+    // Use Thymeleaf to initialize JavaScript variables
     var gameTitle = /*[[${param.title}]]*/ '';
     var gameRating = /*[[${param.rating}]]*/ 0;
     var gameGenre = /*[[${param.genre}]]*/ '';
+    var gamesListCount = /*[[${games.size()}]]*/ 0;
+    var filteredGamesCount = /*[[${filteredGames.size()}]]*/ 0;
+    
+    // Update the search results title with the count
+    document.addEventListener('DOMContentLoaded', function () {
+      var searchResultsTitle = document.getElementById('searchResultsTitle');
+      if (searchResultsTitle) {
+        var countToDisplay = (gameTitle !== '') ? gamesListCount : filteredGamesCount;
+        // Set inner HTML instead of appending
+        searchResultsTitle.innerHTML = 'Search Results (' + countToDisplay + ')';
+      }
+    });
   </script>
+  
 </head>
 <script>
   function toggleCategory(element) {
@@ -244,6 +257,12 @@
       checkboxList1.style.display = checkboxList1.style.display === 'none' ? 'block' : 'none';
   }
 </script>
+<script>
+  function toggleYearCheckboxes() {
+      var checkboxList2 = document.getElementById('yearCheckboxList');
+      checkboxList2.style.display = checkboxList2.style.display === 'none' ? 'block' : 'none';
+  }
+</script>
 <body>
   <div class="container">
     <div class="topnav">
@@ -260,13 +279,28 @@
     </div>
 
     <div class="results-container">
-      <h2 class="custom-text">Search Results</h2>
+      <h2 id="searchResultsTitle" class="custom-text">Search Results</h2>
       <div class="two-column">
         <div class="filter-container">
           <form action="/search" method="get">
             <input type="hidden" name="title" th:value="${param.title}" />
             <div class="filter-header">Filters</div>
-            <div class="filter-box">Year Published</div>
+            <div class="filter-box">
+              <div class="category" onclick="toggleYearCheckboxes()">
+                  <span>Year Published</span>
+                  <span>&#9660;</span>
+              </div>
+              <div class="category-options" id="yearCheckboxList" style="display: none;">
+                      <div th:each="year : ${yearPublished}">
+                          <div class="form-check">
+                              <input class="form-check-input" type="checkbox" th:id="${'yearCheckbox-' + year}" th:value="${year}" name="yearPublished" />
+                              <label class="form-check-label" th:for="${'platformCheckbox-' + platform}" th:text="${year}"></label>
+                          </div>
+                      </div>
+                      
+                  
+              </div>
+            </div>
             <div class="filter-box">User Score <br>
               <input type="range" id="ratingSlider" name="rating" min="0" max="10" step=".1" th:value="${param.rating}" />
               <span id="sliderValueDisplay">0.0</span>

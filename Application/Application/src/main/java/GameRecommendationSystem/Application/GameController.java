@@ -5,7 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.util.*;
-
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.springframework.ui.Model;
 
@@ -40,6 +41,7 @@ public class GameController {
     public String searchGame(@RequestParam(name = "title") String title, 
     @RequestParam(name = "selectedGenres", required = false) List<String> selectedGenres,
     @RequestParam(name = "platformNames", required = false) List<String> selectedPlatforms,
+    @RequestParam(name = "yearPublished", required = false) List<String> selectedYears,
     Model model) {
         int perspective = -1;
         int genre1 = -1;
@@ -90,18 +92,24 @@ public class GameController {
         
         List<Game> filteredGames = new ArrayList<>();
 
-        // Check if genres and/or platforms are selected
-        if (selectedGenres != null && !selectedGenres.isEmpty() || selectedPlatforms != null && !selectedPlatforms.isEmpty()) {
-            // Use the selected genres and/or platforms to filter games
-            filteredGames = gameService.filterGamesByGenresAndPlatform(selectedGenres, selectedPlatforms);
+        if (selectedGenres != null && !selectedGenres.isEmpty() 
+        || selectedPlatforms != null && !selectedPlatforms.isEmpty()
+        || selectedYears != null && !selectedYears.isEmpty()) {
+            
+            filteredGames = gameService.filterGamesByGenresAndPlatform(selectedGenres, selectedPlatforms, selectedYears);
         } 
-
     
         // Print out list of genre category under filter box Genre
         List<String> genreCategories = genreService.getAllDistinctGenreCategories();
         
         // Print out list of platforms under filter box Platform
         List<String> platformNames = platformService.getAllDistinctPlatformNames();
+        List<String> platformNameskeep = List.of("Windows", "Macintosh", "iPhone","iPad", "Android", "Nintendo Switch","PlayStation 5", "PlayStation 4", "PlayStation 3", "Linux", "DOS", "Xbox One", "Browser", "Arcade", "Wii");
+        platformNames.retainAll(platformNameskeep);
+        
+        List<String> yearPublished = IntStream.rangeClosed(1984, 2023)
+                                             .mapToObj(Integer::toString)
+                                             .collect(Collectors.toList());
         
         Map<String, List<String>> genreNamesByCategory = genreService.getGenreNamesByCategory();
     
@@ -113,7 +121,7 @@ public class GameController {
         model.addAttribute("genreCategories", allGenreCategories);
         model.addAttribute("filteredGames", filteredGames);
         model.addAttribute("genreNamesByCategory", genreNamesByCategory);
-        
+        model.addAttribute("yearPublished", yearPublished);
         return "searchResults";
     }
 
