@@ -310,7 +310,7 @@
               <div class="category-options" id="yearCheckboxList" style="display: none;">
                       <div th:each="year : ${yearPublished}">
                           <div class="form-check">
-                              <input class="form-check-input" type="checkbox" th:id="${'yearCheckbox-' + year}" th:value="${year}" name="yearPublished" />
+                              <input class="form-check-input" type="radio" th:id="${'yearCheckbox-' + year}" th:value="${year}" name="yearPublished" />
                               <label class="form-check-label" th:for="${'platformCheckbox-' + platform}" th:text="${year}"></label>
                           </div>
                       </div>
@@ -321,6 +321,7 @@
             <div class="filter-box">User Score <br>
               <input type="range" id="ratingSlider" name="rating" min="0" max="10" step=".1" th:value="${param.rating}" />
               <span id="sliderValueDisplay">0.0</span>
+
               <div class="filter-box">Categories
                   <div th:each="categoryEntry : ${genreNamesByCategory}">
                     <div class="category" th:data-category="${categoryEntry.key}" onclick="toggleCategory(this)">
