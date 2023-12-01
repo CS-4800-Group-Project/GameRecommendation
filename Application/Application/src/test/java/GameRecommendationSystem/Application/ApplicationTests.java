@@ -2,6 +2,7 @@ package GameRecommendationSystem.Application;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,13 +22,11 @@ class ApplicationTests {
 
     @Autowired
     private Controllering controller;
-
     @Test
     void onWebLoad() {
         String response = restTemplate.getForObject("http://localhost:" + port + "/", String.class);
         assertThat(response).contains("VIDEO GAME");
     }
-
     @Test
     void contextLoads() {
         assertThat(controller).isNotNull();
