@@ -1,6 +1,7 @@
 package GameRecommendationSystem.Application;
 
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +26,13 @@ public class GameService {
         return games;
     }
 
-    public List<Game> filterGamesByGenresAndPlatformAndYear(List<String> selectedGenres, List<String> selectedPlatforms, List<String> selectedYears) {
+    public List<Game> filterGamesByGenresAndPlatformAndYear(List<String> selectedGenres, List<String> selectedPlatforms, List<String> selectedYears, Double targetScore ) {
 
         if ((selectedGenres == null || selectedGenres.isEmpty()) 
         && (selectedPlatforms == null || selectedPlatforms.isEmpty())
-        && (selectedYears == null || selectedYears.isEmpty())) {
+        && (selectedYears == null || selectedYears.isEmpty())
+        && (targetScore == null)) {
+            System.out.println("No Filters");
             return gameRepository.findAll();
         }
 
@@ -65,6 +68,9 @@ public class GameService {
         if (!selectedYearsList.isEmpty()) {
             query.addCriteria(Criteria.where("platforms.firstReleaseDate").in(selectedYears));
         }
+        if (targetScore != null){
+            query.addCriteria(Criteria.where("mobyScore").gte(targetScore));
+        }
 
         List<Game> filteredGames = mongoTemplate.find(query, Game.class);
 
@@ -74,5 +80,56 @@ public class GameService {
         System.out.println("Selected Platforms: " + selectedPlatformNames);
         System.out.println("Filtered Games: " + filteredGames.size());
         return filteredGames;
+    }
+
+    public List<Game> findGamesByFiveConditions(int categoryId1, int genreId1, int categoryId2, int genreId2,
+    int categoryId3, int genreId3, int categoryId4, int genreId4, int categoryId5, int genreId5,
+    Double mobyScore, List<String> selectedGenres, List<String> selectedPlatforms, String selectedReleaseYear){
+        Query query = new Query();
+        query.addCriteria(Criteria.where("genres.genreCategoryId").is(categoryId1).and("genres.genreId").is(genreId1));
+        query.addCriteria(Criteria.where("genres.genreCategoryId").is(categoryId2).and("genres.genreId").is(genreId2));
+        query.addCriteria(Criteria.where("genres.genreCategoryId").is(categoryId3).and("genres.genreId").is(genreId3));
+        query.addCriteria(Criteria.where("genres.genreCategoryId").is(categoryId4).and("genres.genreId").is(genreId4));
+        query.addCriteria(Criteria.where("genres.genreCategoryId").is(categoryId5).and("genres.genreId").is(genreId5));
+        query.addCriteria(Criteria.where("mobyScore").gte(mobyScore));
+        if(selectedGenres != null && !selectedGenres.isEmpty()){
+            query.addCriteria(Criteria.where("genres.genreName").in(selectedGenres));
+        }
+        if(selectedPlatforms != null && !selectedPlatforms.isEmpty()){
+            query.addCriteria(Criteria.where("plaform.platformName").in(selectedPlatforms));
+        }
+        if(selectedReleaseYear != null && !selectedReleaseYear.isEmpty()){
+            query.addCriteria(Criteria.where("plaform.firstReleaseDate").regex("^" + selectedReleaseYear + "(-\\d{2}-\\d{2})?$"));
+        }
+
+        List<Game> games = mongoTemplate.find(query, Game.class);
+        return games;
+    }
+
+    List<Game> findGamesByFourConditions(int categoryId1, int genreId1, int categoryId2, int genreId2,
+                        int categoryId3, int genreId3, int categoryId4, int genreId4,
+                        Double mobyScore, List<String> selectedGenres, List<String> selectedPlatforms, String selectedReleaseYear){
+        Query query = new Query();
+        Criteria criteria = new Criteria().andOperator(
+            Criteria.where("genres.genreCategoryId").is(categoryId1).and("genres.genreId").is(genreId1),
+            Criteria.where("genres.genreCategoryId").is(categoryId2).and("genres.genreId").is(genreId2),
+            Criteria.where("genres.genreCategoryId").is(categoryId3).and("genres.genreId").is(genreId3),
+            Criteria.where("genres.genreCategoryId").is(categoryId4).and("genres.genreId").is(genreId4)
+        );
+        query.addCriteria(criteria);
+        query.addCriteria(Criteria.where("mobyScore").gte(mobyScore));
+        if(selectedGenres != null && !selectedGenres.isEmpty()){
+            query.addCriteria(Criteria.where("genres.genreName").in(selectedGenres));
+        }
+        if(selectedPlatforms != null && !selectedPlatforms.isEmpty()){
+            query.addCriteria(Criteria.where("platforms.platformName").in(selectedPlatforms));
+        }
+        if (selectedReleaseYear != null && !selectedReleaseYear.isEmpty()) {
+            query.addCriteria(Criteria.where("platforms.firstReleaseDate").regex(selectedReleaseYear, "i"));
+        }
+
+
+        List<Game> games = mongoTemplate.find(query, Game.class);
+        return games;
     }
 }
