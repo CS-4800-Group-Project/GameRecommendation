@@ -319,8 +319,8 @@
               </div>
             </div>
             <div class="filter-box">User Score <br>
-              <input type="range" id="ratingSlider" name="rating" min="0" max="10" step=".1" th:value="${param.rating}" />
-              <span id="sliderValueDisplay">0.0</span>
+              <input type="range" id="ratingSlider" name="rating" min="0" max="10" step=".1" th:value="${param.rating != null} ? ${param.rating} : 0" />
+              <span id="sliderValue">0.0</span>
 
               <div class="filter-box">Categories
                   <div th:each="categoryEntry : ${genreNamesByCategory}">
@@ -356,8 +356,6 @@
                                 <label class="form-check-label" th:for="${'platformCheckbox-' + platform}" th:text="${platform}"></label>
                             </div>
                         </div>
-                        
-                    
                 </div>
                 </div>
             </div>
@@ -369,15 +367,13 @@
         </div>
 
         <ul class="game-list">
-          <th:block th:if="${#lists.isEmpty(filteredGames)}">
-            <!-- Display all games -->
             <th:block th:each="game : ${games}">
               <li class="game-item">
                 <div class="game-cover">
                   <img th:if="${game.sampleCover != null}" th:src="${game.sampleCover.image}" alt="Cover Image" style="object-fit:cover"/>
                 </div>
                 <div class="game-details">
-                  <h3 class="game-title" th:text="${game.title}"></h3>
+                  <h3 class="game-title" th:utext="${game.title}"></h3>
                   <form action="/description" method="get">
                     <input type="hidden" name="gameId" th:value="${game.gameId}">
                     <button class="view-button">VIEW DETAILS</button>
@@ -385,25 +381,7 @@
                 </div>
               </li>
             </th:block>
-          </th:block>
 
-          <th:block th:else>
-            <!-- Display the first 100 games from filteredGames -->
-            <th:block th:each="index : ${#numbers.sequence(0, 99)}">
-              <li class="game-item">
-                <div class="game-cover">
-                  <img th:if="${filteredGames.size() > index}" th:src="${filteredGames[index].sampleCover != null ? filteredGames[index].sampleCover.image : ''}" alt="Cover Image" />
-                </div>
-                <div class="game-details">
-                  <h3 class="game-title" th:if="${filteredGames.size() > index}" th:text="${filteredGames[index].title}"></h3>
-                  <form th:if="${filteredGames.size() > index}" action="/description" method="get">
-                    <input type="hidden" name="gameId" th:value="${filteredGames[index].gameId}">
-                    <button class="view-button">VIEW DETAILS</button>
-                  </form>
-                </div>
-              </li>
-            </th:block>
-          </th:block>
         </ul>
       </div> <!-- Closing tag for <div class="two-column"> -->
     </div> <!-- Closing tag for <div class="results-container"> -->
@@ -427,5 +405,15 @@
   </div>
 </noscript>
 <!-- End of Statcounter Code -->
+
+<script type="text/javascript">
+  slider = document.getElementById("ratingSlider");
+  document.getElementById("sliderValue").textContent = slider.value;
+  console.log("SliderCode Started!");
+  slider.addEventListener("change", function() {
+    console.log("slider moved");
+    document.getElementById("sliderValue").textContent = slider.value;
+  });
+</script>
 
 </html>
