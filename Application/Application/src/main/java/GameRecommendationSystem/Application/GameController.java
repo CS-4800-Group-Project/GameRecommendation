@@ -55,41 +55,60 @@ public class GameController {
         }
 
         // Search game by title
-        List<Game> gameList = gameRepository.findByTitleIgnoreCaseContainingRegex(title);
+        List<Game> gameList = gameService.findByTitleIgnoreCaseContainingRegexAndFilters(title, targetScore, selectedGenres, selectedPlatforms, selectedYears);
+        if (!gameList.isEmpty()) {
+            Game matchedGame = gameList.get(0);
+                            System.out.println(matchedGame.getTitle());
 
-        Game matchedGame = gameList.get(0);
+            int count = 0;
+            for (int i = 0; i < matchedGame.getGenres().size(); i++) {
+                if (matchedGame.getGenres().get(i).getGenreCategoryId() == 1 && genre1 == -1) {
+                    genre1 = matchedGame.getGenres().get(i).getGenreId();
+                    count++;
+                } else if (matchedGame.getGenres().get(i).getGenreCategoryId() == 1 && genre2 == -1) {
+                    genre2 = matchedGame.getGenres().get(i).getGenreId();
+                    count++;
+                } else if (matchedGame.getGenres().get(i).getGenreCategoryId() == 2 && perspective == -1) {
+                    perspective = matchedGame.getGenres().get(i).getGenreId();
+                    count++;
+                } else if (matchedGame.getGenres().get(i).getGenreCategoryId() == 4 && gameplay == -1) {
+                    gameplay = matchedGame.getGenres().get(i).getGenreId();
+                    count++;
+                } else if (matchedGame.getGenres().get(i).getGenreCategoryId() == 10 && setting == -1) {
+                    setting = matchedGame.getGenres().get(i).getGenreId();
+                    count++;
+                }
 
-        int count = 0;
-        for (int i = 0; i < matchedGame.getGenres().size(); i++) {
-            if (matchedGame.getGenres().get(i).getGenreCategoryId() == 1 && genre1 == -1) {
-                genre1 = matchedGame.getGenres().get(i).getGenreId();
-                count++;
-            } else if (matchedGame.getGenres().get(i).getGenreCategoryId() == 1 && genre2 == -1) {
-                genre2 = matchedGame.getGenres().get(i).getGenreId();
-                count++;
-            } else if (matchedGame.getGenres().get(i).getGenreCategoryId() == 2 && perspective == -1) {
-                perspective = matchedGame.getGenres().get(i).getGenreId();
-                count++;
-            } else if (matchedGame.getGenres().get(i).getGenreCategoryId() == 4 && gameplay == -1) {
-                gameplay = matchedGame.getGenres().get(i).getGenreId();
-                count++;
-            } else if (matchedGame.getGenres().get(i).getGenreCategoryId() == 10 && setting == -1) {
-                setting = matchedGame.getGenres().get(i).getGenreId();
-                count++;
+                if (count == 5){
+                    break;
+                }
             }
-
-            if (count == 5){
-                break;
+            System.out.println(gameplay != -1);
+            System.out.println(genre1 != -1);
+            System.out.println(perspective != -1);
+            System.out.println(setting != -1);
+            System.out.println(genre2 != -1);
+            if (gameplay != -1 && genre2 == -1 && genre1 != -1 && perspective != -1 && setting != -1) {
+                System.out.println("\n\n4\n\n");
+                gameList.addAll( gameService.findGamesByFourConditions(2, perspective, 1, genre1, 4, gameplay, 10, setting,
+                        targetScore, selectedGenres, selectedPlatforms, selectedYears, title)
+                );
+            } 
+            else if(gameplay != -1 && genre2 != -1 && genre1 != -1 && perspective != -1 && setting != -1) {
+                System.out.println("\n\n5\n\n");
+                gameList.addAll(gameService.findGamesByFiveConditions(2, perspective, 1, genre1, 4, gameplay, 1, genre2, 10,
+                                setting, targetScore, selectedGenres, selectedPlatforms, selectedYears, title));
             }
-        }
-        if (gameplay != -1 && genre2 == -1 && genre1 != -1 && perspective != -1 && setting != -1) {
-            System.out.println("\n\n3\n\n");
-            gameList = gameService.findGamesByFourConditions(2, perspective, 1, genre1, 4, gameplay, 10, setting,
-                    targetScore, selectedGenres, selectedPlatforms, selectedYears);
-        } else if (gameplay != -1 && genre2 != -1 && genre1 != -1 && perspective != -1 && setting != -1) {
-            System.out.println("\n\n4\n\n");
-            gameList =  gameService.findGamesByFiveConditions(2, perspective, 1, genre1, 4, gameplay, 1, genre2, 10,
-                            setting, targetScore, selectedGenres, selectedPlatforms, selectedYears);
+            else if(gameplay != -1 && genre2 != -1 && genre1 != -1 && perspective != -1 && setting == -1) {
+                System.out.println("\n\n4\n\n");
+                gameList.addAll(gameService.findGamesByFourConditions(2, perspective, 1, genre1, 4, gameplay, 1, genre2,
+                        targetScore, selectedGenres, selectedPlatforms, selectedYears, title));
+            }
+            else if(gameplay != -1 && genre1 != -1 && perspective != -1 && setting == -1) {
+                System.out.println("\n\n3\n\n");
+                gameList.addAll(gameService.findGamesByThreeConditions(2, perspective, 1, genre1, 4, gameplay,
+                        targetScore, selectedGenres, selectedPlatforms, selectedYears, title));
+            }
         }
 
         // else if (gameplay != -1 && genre != -1 && perspective != -1)
@@ -102,7 +121,7 @@ public class GameController {
         
         // Print out list of platforms under filter box Platform
         List<String> platformNames = platformService.getAllDistinctPlatformNames();
-        List<String> platformNameskeep = List.of("Windows", "Macintosh", "iPhone","iPad", "Android", "Nintendo Switch","PlayStation 5", "PlayStation 4", "PlayStation 3", "Linux", "DOS", "Xbox One", "Browser", "Arcade", "Wii");
+        List<String> platformNameskeep = List.of("Windows", "Macintosh", "iPhone","iPad", "Android", "Wii", "Nintendo Switch",  "PlayStation 3", "PlayStation 4", "PlayStation 5", "Linux", "DOS", "Xbox One", "Browser", "Arcade");
         platformNames.retainAll(platformNameskeep);
         
         List<String> yearPublished = IntStream.rangeClosed(1984, 2023)
