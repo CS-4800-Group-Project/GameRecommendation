@@ -84,7 +84,7 @@ public class GameService {
 
     public List<Game> findGamesByFiveConditions(int categoryId1, int genreId1, int categoryId2, int genreId2,
     int categoryId3, int genreId3, int categoryId4, int genreId4, int categoryId5, int genreId5,
-    Double mobyScore, List<String> selectedGenres, List<String> selectedPlatforms, String selectedReleaseYear){
+    Double mobyScore, List<String> selectedGenres, List<String> selectedPlatforms, String selectedReleaseYear, String title){
         Query query = new Query();
         query.addCriteria(Criteria.where("genres.genreCategoryId").is(categoryId1).and("genres.genreId").is(genreId1));
         query.addCriteria(Criteria.where("genres.genreCategoryId").is(categoryId2).and("genres.genreId").is(genreId2));
@@ -92,6 +92,8 @@ public class GameService {
         query.addCriteria(Criteria.where("genres.genreCategoryId").is(categoryId4).and("genres.genreId").is(genreId4));
         query.addCriteria(Criteria.where("genres.genreCategoryId").is(categoryId5).and("genres.genreId").is(genreId5));
         query.addCriteria(Criteria.where("mobyScore").gte(mobyScore));
+        System.out.println(mobyScore);
+        System.out.println(query.toString());
         if(selectedGenres != null && !selectedGenres.isEmpty()){
             query.addCriteria(Criteria.where("genres.genreName").in(selectedGenres));
         }
@@ -101,6 +103,7 @@ public class GameService {
         if(selectedReleaseYear != null && !selectedReleaseYear.isEmpty()){
             query.addCriteria(Criteria.where("plaform.firstReleaseDate").regex("^" + selectedReleaseYear + "(-\\d{2}-\\d{2})?$"));
         }
+        query.addCriteria(Criteria.where("title").not().regex(title, "i"));
 
         List<Game> games = mongoTemplate.find(query, Game.class);
         return games;
@@ -108,7 +111,7 @@ public class GameService {
 
     List<Game> findGamesByFourConditions(int categoryId1, int genreId1, int categoryId2, int genreId2,
                         int categoryId3, int genreId3, int categoryId4, int genreId4,
-                        Double mobyScore, List<String> selectedGenres, List<String> selectedPlatforms, String selectedReleaseYear){
+                        Double mobyScore, List<String> selectedGenres, List<String> selectedPlatforms, String selectedReleaseYear, String title){
         Query query = new Query();
         Criteria criteria = new Criteria().andOperator(
             Criteria.where("genres.genreCategoryId").is(categoryId1).and("genres.genreId").is(genreId1),
@@ -117,6 +120,7 @@ public class GameService {
             Criteria.where("genres.genreCategoryId").is(categoryId4).and("genres.genreId").is(genreId4)
         );
         query.addCriteria(criteria);
+        System.out.println( "Moby Score" + mobyScore);
         query.addCriteria(Criteria.where("mobyScore").gte(mobyScore));
         if(selectedGenres != null && !selectedGenres.isEmpty()){
             query.addCriteria(Criteria.where("genres.genreName").in(selectedGenres));
@@ -127,8 +131,62 @@ public class GameService {
         if (selectedReleaseYear != null && !selectedReleaseYear.isEmpty()) {
             query.addCriteria(Criteria.where("platforms.firstReleaseDate").regex(selectedReleaseYear, "i"));
         }
+        query.addCriteria(Criteria.where("title").not().regex(title, "i"));
 
 
+        List<Game> games = mongoTemplate.find(query, Game.class);
+        return games;
+    }
+    List<Game> findGamesByThreeConditions(int categoryId1, int genreId1, int categoryId2, int genreId2,
+                        int categoryId3, int genreId3,
+                        Double mobyScore, List<String> selectedGenres, List<String> selectedPlatforms, String selectedReleaseYear, String title){
+        Query query = new Query();
+        Criteria criteria = new Criteria().andOperator(
+            Criteria.where("genres.genreCategoryId").is(categoryId1).and("genres.genreId").is(genreId1),
+            Criteria.where("genres.genreCategoryId").is(categoryId2).and("genres.genreId").is(genreId2),
+            Criteria.where("genres.genreCategoryId").is(categoryId3).and("genres.genreId").is(genreId3)
+        );
+        query.addCriteria(criteria);
+        System.out.println( "Moby Score" + mobyScore);
+        query.addCriteria(Criteria.where("mobyScore").gte(mobyScore));
+        if(selectedGenres != null && !selectedGenres.isEmpty()){
+            query.addCriteria(Criteria.where("genres.genreName").in(selectedGenres));
+        }
+        if(selectedPlatforms != null && !selectedPlatforms.isEmpty()){
+            query.addCriteria(Criteria.where("platforms.platformName").in(selectedPlatforms));
+        }
+        if (selectedReleaseYear != null && !selectedReleaseYear.isEmpty()) {
+            query.addCriteria(Criteria.where("platforms.firstReleaseDate").regex(selectedReleaseYear, "i"));
+        }
+        query.addCriteria(Criteria.where("title").not().regex(title, "i"));
+
+
+        List<Game> games = mongoTemplate.find(query, Game.class);
+        return games;
+    }
+    
+
+
+    public List<Game> findByTitleIgnoreCaseContainingRegex(String title){
+        Query query = new Query();
+        query.addCriteria(Criteria.where("title").regex(title, "i"));
+        List<Game> games = mongoTemplate.find(query, Game.class);
+        return games;
+    }
+    public List<Game> findByTitleIgnoreCaseContainingRegexAndFilters(String title, Double mobyScore, List<String> selectedGenres, List<String> selectedPlatforms, String selectedReleaseYear){
+        Query query = new Query();
+        query.addCriteria(Criteria.where("title").regex(title, "i"));
+        query.addCriteria(Criteria.where("mobyScore").gte(mobyScore));
+        if(selectedGenres != null && !selectedGenres.isEmpty()){
+            query.addCriteria(Criteria.where("genres.genreName").in(selectedGenres));
+        }
+        if(selectedPlatforms != null && !selectedPlatforms.isEmpty()){
+            query.addCriteria(Criteria.where("platforms.platformName").in(selectedPlatforms));
+        }
+        if (selectedReleaseYear != null && !selectedReleaseYear.isEmpty()) {
+            query.addCriteria(Criteria.where("platforms.firstReleaseDate").regex(selectedReleaseYear, "i"));
+        }
+        
         List<Game> games = mongoTemplate.find(query, Game.class);
         return games;
     }
