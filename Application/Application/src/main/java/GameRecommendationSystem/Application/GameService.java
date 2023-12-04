@@ -95,7 +95,7 @@ public class GameService {
                 : Collections.emptyList();
    
         if(selectedGenres != null && !selectedGenres.isEmpty()){
-            query.addCriteria(Criteria.where("genres.genreName").in(selectedGenres));
+            query.addCriteria(Criteria.where("genres.genreName").in(selectedGenreNames));
         }
         if(selectedPlatforms != null && !selectedPlatforms.isEmpty()){
             query.addCriteria(Criteria.where("plaforms.platformName").in(selectedPlatformNames));
@@ -132,7 +132,7 @@ public class GameService {
                 : Collections.emptyList();
 
         if(selectedGenres != null && !selectedGenres.isEmpty()){
-            query.addCriteria(Criteria.where("genres.genreName").in(selectedGenres));
+            query.addCriteria(Criteria.where("genres.genreName").in(selectedGenreNames));
         }
         if(selectedPlatforms != null && !selectedPlatforms.isEmpty()){
             query.addCriteria(Criteria.where("platforms.platformName").in(selectedPlatformNames));
@@ -168,7 +168,7 @@ public class GameService {
                 : Collections.emptyList();
 
         if(selectedGenres != null && !selectedGenres.isEmpty()){
-            query.addCriteria(Criteria.where("genres.genreName").in(selectedGenres));
+            query.addCriteria(Criteria.where("genres.genreName").in(selectedGenreNames));
         }
         if(selectedPlatforms != null && !selectedPlatforms.isEmpty()){
             query.addCriteria(Criteria.where("platforms.platformName").in(selectedPlatformNames));
