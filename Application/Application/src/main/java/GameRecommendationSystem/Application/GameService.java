@@ -1,7 +1,6 @@
 package GameRecommendationSystem.Application;
 
 import java.util.*;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,24 +35,17 @@ public class GameService {
             return gameRepository.findAll();
         }
 
-        // Extract genre names without categories from selectedGenres
-
         List<String> selectedGenreNames = (selectedGenres != null)
                 ? selectedGenres.stream().map(genre -> genre.split(":")[0]).collect(Collectors.toList())
                 : Collections.emptyList();
-
-        // Extract platform names from selectedPlatforms
 
         List<String> selectedPlatformNames = (selectedPlatforms != null)
                 ? selectedPlatforms.stream().map(platform -> platform.split(":")[0]).collect(Collectors.toList())
                 : Collections.emptyList();
 
-        // Create a query to filter by genres if selectedGenres is not empty
-
         List<String> selectedYearsList = (selectedYears != null)
                 ? selectedYears
                 : Collections.emptyList();
-
 
         Query query = new Query();
 
@@ -94,14 +86,22 @@ public class GameService {
         query.addCriteria(Criteria.where("mobyScore").gte(mobyScore));
         System.out.println(mobyScore);
         System.out.println(query.toString());
+        List<String> selectedGenreNames = (selectedGenres != null)
+                ? selectedGenres.stream().map(genre -> genre.split(":")[0]).collect(Collectors.toList())
+                : Collections.emptyList();
+
+        List<String> selectedPlatformNames = (selectedPlatforms != null)
+                ? selectedPlatforms.stream().map(platform -> platform.split(":")[0]).collect(Collectors.toList())
+                : Collections.emptyList();
+   
         if(selectedGenres != null && !selectedGenres.isEmpty()){
             query.addCriteria(Criteria.where("genres.genreName").in(selectedGenres));
         }
         if(selectedPlatforms != null && !selectedPlatforms.isEmpty()){
-            query.addCriteria(Criteria.where("plaform.platformName").in(selectedPlatforms));
+            query.addCriteria(Criteria.where("plaforms.platformName").in(selectedPlatformNames));
         }
         if(selectedReleaseYear != null && !selectedReleaseYear.isEmpty()){
-            query.addCriteria(Criteria.where("plaform.firstReleaseDate").regex("^" + selectedReleaseYear + "(-\\d{2}-\\d{2})?$"));
+            query.addCriteria(Criteria.where("plaforms.firstReleaseDate").regex("^" + selectedReleaseYear + "(-\\d{2}-\\d{2})?$"));
         }
         query.addCriteria(Criteria.where("title").not().regex(title, "i"));
 
@@ -122,11 +122,20 @@ public class GameService {
         query.addCriteria(criteria);
         System.out.println( "Moby Score" + mobyScore);
         query.addCriteria(Criteria.where("mobyScore").gte(mobyScore));
+        
+        List<String> selectedGenreNames = (selectedGenres != null)
+                ? selectedGenres.stream().map(genre -> genre.split(":")[0]).collect(Collectors.toList())
+                : Collections.emptyList();
+
+        List<String> selectedPlatformNames = (selectedPlatforms != null)
+                ? selectedPlatforms.stream().map(platform -> platform.split(":")[0]).collect(Collectors.toList())
+                : Collections.emptyList();
+
         if(selectedGenres != null && !selectedGenres.isEmpty()){
             query.addCriteria(Criteria.where("genres.genreName").in(selectedGenres));
         }
         if(selectedPlatforms != null && !selectedPlatforms.isEmpty()){
-            query.addCriteria(Criteria.where("platforms.platformName").in(selectedPlatforms));
+            query.addCriteria(Criteria.where("platforms.platformName").in(selectedPlatformNames));
         }
         if (selectedReleaseYear != null && !selectedReleaseYear.isEmpty()) {
             query.addCriteria(Criteria.where("platforms.firstReleaseDate").regex(selectedReleaseYear, "i"));
@@ -149,11 +158,20 @@ public class GameService {
         query.addCriteria(criteria);
         System.out.println( "Moby Score" + mobyScore);
         query.addCriteria(Criteria.where("mobyScore").gte(mobyScore));
+
+        List<String> selectedGenreNames = (selectedGenres != null)
+                ? selectedGenres.stream().map(genre -> genre.split(":")[0]).collect(Collectors.toList())
+                : Collections.emptyList();
+
+        List<String> selectedPlatformNames = (selectedPlatforms != null)
+                ? selectedPlatforms.stream().map(platform -> platform.split(":")[0]).collect(Collectors.toList())
+                : Collections.emptyList();
+
         if(selectedGenres != null && !selectedGenres.isEmpty()){
             query.addCriteria(Criteria.where("genres.genreName").in(selectedGenres));
         }
         if(selectedPlatforms != null && !selectedPlatforms.isEmpty()){
-            query.addCriteria(Criteria.where("platforms.platformName").in(selectedPlatforms));
+            query.addCriteria(Criteria.where("platforms.platformName").in(selectedPlatformNames));
         }
         if (selectedReleaseYear != null && !selectedReleaseYear.isEmpty()) {
             query.addCriteria(Criteria.where("platforms.firstReleaseDate").regex(selectedReleaseYear, "i"));
@@ -165,8 +183,6 @@ public class GameService {
         return games;
     }
     
-
-
     public List<Game> findByTitleIgnoreCaseContainingRegex(String title){
         Query query = new Query();
         query.addCriteria(Criteria.where("title").regex(title, "i"));
@@ -177,11 +193,18 @@ public class GameService {
         Query query = new Query();
         query.addCriteria(Criteria.where("title").regex(title, "i"));
         query.addCriteria(Criteria.where("mobyScore").gte(mobyScore));
+        List<String> selectedGenreNames = (selectedGenres != null)
+                ? selectedGenres.stream().map(genre -> genre.split(":")[0]).collect(Collectors.toList())
+                : Collections.emptyList();
+
+        List<String> selectedPlatformNames = (selectedPlatforms != null)
+                ? selectedPlatforms.stream().map(platform -> platform.split(":")[0]).collect(Collectors.toList())
+                : Collections.emptyList();
         if(selectedGenres != null && !selectedGenres.isEmpty()){
-            query.addCriteria(Criteria.where("genres.genreName").in(selectedGenres));
+            query.addCriteria(Criteria.where("genres.genreName").in(selectedGenreNames));
         }
         if(selectedPlatforms != null && !selectedPlatforms.isEmpty()){
-            query.addCriteria(Criteria.where("platforms.platformName").in(selectedPlatforms));
+            query.addCriteria(Criteria.where("platforms.platformName").in(selectedPlatformNames));
         }
         if (selectedReleaseYear != null && !selectedReleaseYear.isEmpty()) {
             query.addCriteria(Criteria.where("platforms.firstReleaseDate").regex(selectedReleaseYear, "i"));

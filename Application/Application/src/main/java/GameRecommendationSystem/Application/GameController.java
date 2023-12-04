@@ -53,9 +53,10 @@ public class GameController {
         if(targetScore == null){
             targetScore = 0.0;
         }
+        List<Game> gameList = gameService.findByTitleIgnoreCaseContainingRegexAndFilters(title, targetScore, selectedGenres, selectedPlatforms, selectedYears);
 
         // Search game by title
-        List<Game> gameList = gameService.findByTitleIgnoreCaseContainingRegexAndFilters(title, targetScore, selectedGenres, selectedPlatforms, selectedYears);
+        List<Game> gameList1 = gameService.findByTitleIgnoreCaseContainingRegex(title);
         if (!gameList.isEmpty()) {
             Game matchedGame = gameList.get(0);
                             System.out.println(matchedGame.getTitle());
@@ -88,17 +89,18 @@ public class GameController {
             System.out.println(perspective != -1);
             System.out.println(setting != -1);
             System.out.println(genre2 != -1);
-            if (gameplay != -1 && genre2 == -1 && genre1 != -1 && perspective != -1 && setting != -1) {
+            if(gameplay != -1 && genre2 != -1 && genre1 != -1 && perspective != -1 && setting != -1) {
+                System.out.println("\n\n5\n\n");
+                gameList.addAll(gameService.findGamesByFiveConditions(2, perspective, 1, genre1, 4, gameplay, 1, genre2, 10,
+                                setting, targetScore, selectedGenres, selectedPlatforms, selectedYears, title));
+            }
+            else if (gameplay != -1 && genre2 == -1 && genre1 != -1 && perspective != -1 && setting != -1) {
                 System.out.println("\n\n4\n\n");
                 gameList.addAll( gameService.findGamesByFourConditions(2, perspective, 1, genre1, 4, gameplay, 10, setting,
                         targetScore, selectedGenres, selectedPlatforms, selectedYears, title)
                 );
             } 
-            else if(gameplay != -1 && genre2 != -1 && genre1 != -1 && perspective != -1 && setting != -1) {
-                System.out.println("\n\n5\n\n");
-                gameList.addAll(gameService.findGamesByFiveConditions(2, perspective, 1, genre1, 4, gameplay, 1, genre2, 10,
-                                setting, targetScore, selectedGenres, selectedPlatforms, selectedYears, title));
-            }
+            
             else if(gameplay != -1 && genre2 != -1 && genre1 != -1 && perspective != -1 && setting == -1) {
                 System.out.println("\n\n4\n\n");
                 gameList.addAll(gameService.findGamesByFourConditions(2, perspective, 1, genre1, 4, gameplay, 1, genre2,
