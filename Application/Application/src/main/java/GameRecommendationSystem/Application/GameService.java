@@ -101,7 +101,7 @@ public class GameService {
             query.addCriteria(Criteria.where("plaforms.platformName").in(selectedPlatformNames));
         }
         if(selectedReleaseYear != null && !selectedReleaseYear.isEmpty()){
-            query.addCriteria(Criteria.where("plaforms.firstReleaseDate").regex("^" + selectedReleaseYear + "(-\\d{2}-\\d{2})?$"));
+            query.addCriteria(Criteria.where("platforms.firstReleaseDate").regex(selectedReleaseYear, "i"));
         }
         query.addCriteria(Criteria.where("title").not().regex(title, "i"));
 
