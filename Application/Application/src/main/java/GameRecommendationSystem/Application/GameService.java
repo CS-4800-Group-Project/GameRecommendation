@@ -31,7 +31,6 @@ public class GameService {
         && (selectedPlatforms == null || selectedPlatforms.isEmpty())
         && (selectedYears == null || selectedYears.isEmpty())
         && (targetScore == null)) {
-            System.out.println("No Filters");
             return gameRepository.findAll();
         }
 
@@ -68,9 +67,6 @@ public class GameService {
 
         // Log information for debugging
 
-        System.out.println("Selected Genres: " + selectedGenreNames);
-        System.out.println("Selected Platforms: " + selectedPlatformNames);
-        System.out.println("Filtered Games: " + filteredGames.size());
         return filteredGames;
     }
 
@@ -84,8 +80,6 @@ public class GameService {
         query.addCriteria(Criteria.where("genres.genreCategoryId").is(categoryId4).and("genres.genreId").is(genreId4));
         query.addCriteria(Criteria.where("genres.genreCategoryId").is(categoryId5).and("genres.genreId").is(genreId5));
         query.addCriteria(Criteria.where("mobyScore").gte(mobyScore));
-        System.out.println(mobyScore);
-        System.out.println(query.toString());
         List<String> selectedGenreNames = (selectedGenres != null)
                 ? selectedGenres.stream().map(genre -> genre.split(":")[0]).collect(Collectors.toList())
                 : Collections.emptyList();
@@ -120,7 +114,6 @@ public class GameService {
             Criteria.where("genres.genreCategoryId").is(categoryId4).and("genres.genreId").is(genreId4)
         );
         query.addCriteria(criteria);
-        System.out.println( "Moby Score" + mobyScore);
         query.addCriteria(Criteria.where("mobyScore").gte(mobyScore));
         
         List<String> selectedGenreNames = (selectedGenres != null)
@@ -156,7 +149,6 @@ public class GameService {
             Criteria.where("genres.genreCategoryId").is(categoryId3).and("genres.genreId").is(genreId3)
         );
         query.addCriteria(criteria);
-        System.out.println( "Moby Score" + mobyScore);
         query.addCriteria(Criteria.where("mobyScore").gte(mobyScore));
 
         List<String> selectedGenreNames = (selectedGenres != null)
