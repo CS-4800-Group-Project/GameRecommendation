@@ -331,7 +331,7 @@
                     <div class="category-options" th:id="${categoryEntry.key + '-options'}">
                       <div th:if="${not #lists.isEmpty(categoryEntry.value)}">
                         <!-- Check if the current category has associated genreNames -->
-                        <label th:each="option : ${categoryEntry.value}">
+                        <label th:each="option : ${#sets.toSet(categoryEntry.value)}">
                           <input type="checkbox" th:id="${'checkbox-' + option}" th:value="${option + ':' + categoryEntry.key}" name="selectedGenres" />
                           <span th:text="${option}"></span><br>
                         </label>
