@@ -12,7 +12,7 @@ Demo Video showing the project's functionality
 
 ## Features
 ![image](./assets/Games.png)
-A 
+Search results for searching "mario" in the database 
 
 - Shows recommendations of games based on inputted game
 - Allows for filtering based on user score, dated published, categories, and platform
@@ -33,6 +33,7 @@ A
 
 ## Authors
 BenLeCPP
+LynnTaka
 RannerJP
 ## License
 
