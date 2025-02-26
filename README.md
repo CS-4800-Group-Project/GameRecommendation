@@ -7,7 +7,7 @@ This project allows the user to input a game and recieve a list of recommendatio
 ## Motivation
 This project was done as a part of our Software Engineering class. We decided on game recommendation as all three of us are fond of video games and wanted to see if we can make a more "objective" recommendation system (not based on other user recommmendations).
 
-![video](https://www.youtube.com/watch?v=RfAK3KbYaw0)
+https://www.youtube.com/watch?v=RfAK3KbYaw0
 Demo Video showing the project's functionality
 
 ## Features
