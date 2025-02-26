@@ -11,6 +11,9 @@ This project was done as a part of our Software Engineering class. We decided on
 Demo Video showing the project's functionality
 
 ## Features
+![image](./assets/Games.png)
+A 
+
 - Shows recommendations of games based on inputted game
 - Allows for filtering based on user score, dated published, categories, and platform
 - Clicking on a game shows information related to the title such as score, description, and genres (provided from MobyGames) 
