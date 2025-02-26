@@ -7,6 +7,7 @@ This project allows the user to input a game and recieve a list of recommendatio
 ## Motivation
 This project was done as a part of our Software Engineering class. We decided on game recommendation as all three of us are fond of video games and wanted to see if we can make a more "objective" recommendation system (not based on other user recommmendations).
 
+![video](./assets/DemoVideo.mp4)
 Demo Video showing the project's functionality
 
 ## Features
@@ -16,9 +17,10 @@ Demo Video showing the project's functionality
 
 ## Installation
 - This project uses Java SE version 17 which can be downloaded [here](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
+- MongoDb version 7.0.3 was used however any newer version of MongoDB should be used. Download MongoDB [here](https://www.mongodb.com/try/download/community-edition/releases/archive) 
 - Download this project either by 
     - Downloading the source code as a zip and unzipping to your desired location
-    - Using `git clone `. Make sure you have [git](https://git-scm.com/downloads) installed
+    - Using `git clone https://github.com/CS-4800-Group-Project/GameRecommendation.git`. Make sure you have [git](https://git-scm.com/downloads) installed
 - The code does not come with the MongoDB database used, you must download the database from [MobyGames](https://www.mobygames.com/info/api/#non-commercial) **An API key is required**. Download the genre, platforms and games. The resulting jsons can just be placed in collections named GenreList, PlatformList and GameList (database named Game)
 - Run `Application.java`
 
